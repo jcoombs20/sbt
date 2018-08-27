@@ -1,0 +1,126 @@
+.leaflet-control-downLoadFile a {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	display: block;
+}
+
+.leaflet-control-downLoadFile {
+	box-shadow: 0 1px 7px #999;
+	background: white;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+        width: 32px;
+}
+
+.leaflet-control-downLoadFile-expanded {
+        width: 265px;
+        position: absolute;
+        bottom: 0px;
+}
+
+.leaflet-control-downLoadFile a {
+        background-color: white; 
+	background-image: url(../images/download2.png);
+	width: 32px;
+	height: 32px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.leaflet-touch .leaflet-control-downLoadFile a {
+	width: 32px;
+	height: 32px;
+}
+
+.leaflet-control-downLoadFile .leaflet-control-downLoadFile-div,
+.leaflet-control-downLoadFile-expanded .leaflet-control-downLoadFile-toggle {
+	display: none;
+}
+
+.leaflet-control-downLoadFile-expanded .leaflet-control-downLoadFile-div {
+	display: block;
+	//position: relative;
+}
+
+.leaflet-control-downLoadFile-expanded .leaflet-control-downLoadFile-div {
+	//padding: 5px;
+}
+
+.leaflet-control-downLoadFile-button {
+	display: block;
+	text-align: center;
+	margin: auto;
+}
+
+.leaflet-control-downLoadFile-h5 {
+	margin: 4px;
+	text-align: center;
+        font-weight: bold;
+}
+
+.leaflet-control-downLoadFile-input[type=radio] {
+       margin: 2px 2px 2px 50px;
+}
+
+.leaflet-control-downLoadFile-label {
+	display: inline-block;
+       margin: 2px;
+}
+
+.leaflet-control-downLoadFile-hr {
+	margin: 4px 0px 4px 0px;
+}
+
+#downloadDiv {
+  position: absolute;
+  top: 40px;
+  right: 50px;
+  width: 100%;
+  max-width: 200px;
+  min-width: 200px;
+  margin: 0px;
+  z-index: 1000;
+  border-radius: 4px;
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
+  display: none;
+  opacity: 0;
+}  
+
+.dlLabel {
+  margin: 0px 2px 0px 2px;
+  font-weight: normal;
+  font-size: 13px;
+}
+
+#dlButton {
+  padding: 9px 42px;
+  color: black;
+}
+
+#dlButton:hover, #dlButton:visited, #dlButton:focus {
+  text-decoration: none;
+}
+
+#dlLayersDiv {
+  padding: 5px 15px 5px 15px;
+  background: white;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  margin-bottom: 5px;
+}
+
+#downloadDiv input[type=radio] {
+  margin: 5px 0px;
+  top: 2px;
+  position: relative;
+}
+
+#download {
+  background: rgba(255, 255, 255, 0.9);
+  //position: relative;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}

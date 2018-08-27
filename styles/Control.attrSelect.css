@@ -1,0 +1,150 @@
+#attrSelectModal {
+  display: flex;
+  justify-content: center;
+  min-width: 1262px;
+  min-height: 750px;
+}
+
+#attrSelectDiv {
+  width: 1200px;
+  height: 740px;
+  //background: white;
+  border: 1px solid black;
+  border-radius: 4px;
+  font-size: 13px;
+  align-self: center;
+}
+
+#attrSelectHeader {
+  border-bottom: 1px solid gray;
+}
+
+#attrSelectInfo {
+  background: #ffa31a;
+  background: linear-gradient(#ffb84d, #cc7a00); /* Standard syntax */
+  padding: 5px 15px;
+  border-bottom: 1px solid gray;
+}
+
+#attrSelectInfo>p {
+  color: white;
+  font-size: 13px;
+  margin: 0px;
+}
+
+#attrSelectLayersDiv {
+  padding: 5px 15px;
+  height: calc(100% - 115px);
+  background: white;
+  border-bottom: 1px solid gray;
+}
+
+#attrSelectCrossings {
+  float: left;
+  width: 77%;
+  height: 100%;
+  border-right: 4px solid lightgray;
+  margin-right: 3%;
+}
+
+#attrSelectCrossingsOptions {
+  height: calc(100% - 39px);
+}
+
+#attrSelectStreamsCatchments {
+  float: left;
+  width: 20%;
+}
+
+.attrSelectLayerTitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  text-decoration: underline;
+}
+
+#attrSelectButton {
+  width: 22%;
+}
+
+#column1 {
+  width: 50%;
+  border-right: 1px solid lightgray;
+  padding-left: 30px;
+  float: left;
+  margin-right: 5%;
+  height: 100%;
+}
+
+#column2 {
+  width: 45%;
+  float: left;
+  height: 100%;
+}
+
+.combCheck, .ecoCheck, .emsCheck, .rofCheck, .attrCheck, .addCheck, .allCheck, .streamCheck, .catchmentCheck {
+  transform: scale(1.3) !important;
+  margin-right: 12px !important;
+}
+
+.attrSubHead {
+  font-weight: normal;
+  color: red;
+  margin-left: 23px;
+  margin-bottom: 0px;
+}
+
+.priorTitle {
+  font-weight: bold;
+  font-size: 16px;
+  color: #598cc0;
+  position: relative;
+  left: -15px;
+  margin-top: 10px;
+}
+
+.priorSubTitle {
+  font-weight: bold;
+  font-size: 14px;
+  font-style: italic;
+  color: #598cc0;
+  margin-top: 15px;
+}
+
+.horListTitle {
+  font-weight: bold;
+  font-size: 13px;
+  display: inline-block;
+}
+
+.horListDiv {
+  display: inline-block;
+  margin-left: 15px;
+}
+
+#coldCurrent, #coldFuture, #hydROFCurrent, #hydROFFuture {
+  margin-left: 15px;
+}
+
+.priorLabel {
+  font-weight: bold;
+  font-size: 13px;
+  margin: 1px 10px 0px 0px;
+}
+
+.attrDiv {
+  text-align: left;
+  margin-top: 3px;
+}
+
+.attrDiv.selectAllDiv {
+  margin: 10px 0px;
+}
+
+input[type=radio], input[type=checkbox] {
+  margin: 0px 0px 0px 5px;
+}
+
+.glyphicon-info-sign {
+  margin-right: 5px;
+}

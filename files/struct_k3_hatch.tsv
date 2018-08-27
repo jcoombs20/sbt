@@ -1,0 +1,19 @@
+ID	Population	Pop	Sample Size	Latitude	Longitude	General Location	k1	k2	k3	Data
+819	Armstrong	[Armstrong-01]	50	1.08	1	Hatchery	0.985	0.007	0.007	98.5-0.7-0.7
+820	Bellefonte	[HATC8-01]	31	1.08	1.02	Hatchery	0.968	0.015	0.017	96.8-1.5-1.7
+821	Berlin	[HATC10-001]	50	1.07	1	Hatchery	0.991	0.005	0.004	99.1-0.5-0.4
+822	BigHillPd	[HATC5-01]	55	1.07	1.02	Hatchery	0.939	0.031	0.03	93.9-3.1-3
+823	Edray	[HATC9-01]	21	1.06	1	Hatchery	0.974	0.014	0.012	97.4-1.4-1.2
+824	HydePd	[HATC3-01]	35	1.06	1.02	Hatchery	0.986	0.008	0.006	98.6-0.8-0.6
+825	Milford1	[HATC11-001]	50	1.05	1	Hatchery	0.991	0.004	0.004	99.1-0.4-0.4
+826	Milford2	[HATC12-001]	50	1.05	1.02	Hatchery	0.991	0.005	0.005	99.1-0.5-0.5
+827	Milford3	[HATC13-001]	50	1.04	1	Hatchery	0.991	0.005	0.004	99.1-0.5-0.4
+828	MountainPD	[HATC4-01]	31	1.04	1.02	Hatchery	0.969	0.019	0.012	96.9-1.9-1.2
+829	PaintBank	[PaintBank-01]	50	1.03	1	Hatchery	0.926	0.018	0.056	92.6-1.8-5.6
+830	Pequest	[HATC7-01]	20	1.03	1.02	Hatchery	0.97	0.011	0.019	97-1.1-1.9
+831	Phillips	[HATC1-001]	60	1.02	1	Hatchery	0.988	0.007	0.005	98.8-0.7-0.5
+832	Pisgah	[Pisgah-01]	50	1.02	1.02	Hatchery	0.988	0.006	0.006	98.8-0.6-0.6
+833	Randolph	[DS03-001]	30	1.01	1	Hatchery	0.99	0.005	0.005	99-0.5-0.5
+834	RomeHat	[HATC6-01]	50	1.01	1.02	Hatchery	0.991	0.005	0.005	99.1-0.5-0.5
+835	Sandwich	[HATC2-001]	37	1	1	Hatchery	0.972	0.011	0.017	97.2-1.1-1.7
+836	TelHatch	[TN06-001]	68	1	1.02	Hatchery	0.008	0.456	0.536	0.8-45.6-53.6
