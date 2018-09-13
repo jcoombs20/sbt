@@ -35,7 +35,7 @@
     <!--script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script-->
     <script src="bootstrap-toggle.min.js"></script>    
     <!--script src="http://vjs.zencdn.net/5.16.0/video.js"></script-->
-    <script src="video.js"></script>
+    <!--script src="video.js"></script-->
     <script src="http://maps.google.com/maps/api/js?v=3"></script>
     <!--script src="google_maps.js"></script-->
     <script src="bundle.js"></script>
@@ -52,6 +52,12 @@
     <script src="d3.v3.min.js"></script>
     <!--script src="http://d3js.org/topojson.v1.min.js"></script-->
     <script src="topojson.v1.min.js"></script>
+    <!--script src="https://d3js.org/d3-color.v1.min.js"></script-->
+    <script src="d3-color.v1.min.js"></script>
+    <!--script src="https://d3js.org/d3-interpolate.v1.min.js"></script-->
+    <script src="d3-interpolate.v1.min.js"></script>
+    <!--script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script-->
+    <script src="d3-scale-chromatic.min.js"></script>
     <!--script src="http://colorbrewer2.org/export/colorbrewer.js"></script-->
     <script src="colorbrewer.js"></script>
     <!--script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script-->
@@ -74,7 +80,7 @@
 
       function resizePanels() {
         var bodyRect = document.body.getBoundingClientRect();
-        var tmpWindows = ["legendDiv", "chartsDiv", "polFilterDiv", "attrSelectDiv", "attributesDiv", "downloadDiv"];
+        var tmpWindows = ["legendDiv", "gsLegendDiv", "topoLegendDiv", "chartsDiv", "polFilterDiv", "attrSelectDiv", "attributesDiv", "downloadDiv"];
         
         tmpWindows.forEach(function(win) {
           var winRect = document.getElementById(win).getBoundingClientRect();
@@ -225,251 +231,7 @@
         version: '1.1.0',
         maxZoom: 20
       });
-/*
-      var gsStruct_2k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:structure_2k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
 
-      var gsStruct_2k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:structure_2k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsStruct_3k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:structure_3k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsStruct_3k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:structure_3k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsStruct_4k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:structure_4k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsStruct_4k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:structure_4k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsStruct_5k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:structure_5k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsStruct_5k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:structure_5k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsStruct_6k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:structure_6k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsStruct_6k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:structure_6k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsStruct_7k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:structure_7k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsStruct_7k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:structure_7k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-       var gsDapc_2k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:dapc_2k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsDapc_2k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:dapc_2k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-       var gsDapc_3k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:dapc_3k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsDapc_3k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:dapc_3k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-       var gsDapc_4k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:dapc_4k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsDapc_4k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:dapc_4k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-       var gsDapc_5k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:dapc_5k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsDapc_5k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:dapc_5k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-       var gsDapc_6k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:dapc_6k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsDapc_6k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:dapc_6k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-       var gsDapc_7k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:dapc_7k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsDapc_7k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:dapc_7k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-       var gsDapc_10k = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/gwc/service/wms", {
-        layers: 'BKT:dapc_10k',
-        format: 'image/png',
-        tiled: true,
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-
-      var gsDapc_10k_hatch = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:dapc_10k_hatch',
-        format: 'image/png',
-        transparent: true,
-        version: '1.1.0',
-        maxZoom: 20
-      });
-*/
-     //var roads = L.esri.tiledMapLayer({url: "http://gis.massdot.state.ma.us/arcgis/rest/services/Roads/RoadInventory/MapServer"});
-
-/*
-      //******Make layer controller
-      var baseLayers = {"Google Terrain": googleTerrain, "Google Hybrid": googleHybrid, "Google Satellite": googleSatellite, "Google Street": googleStreet, "Bing Hybrid": bingHybrid, "Bing Satellite": bingSatellite, "Bing Street": bingStreet, "USGS Topo": usgsTopo, "State Outlines": states, "None": blank};
-      //var overlays = {"States": gsStates, "Continental Divide": gsContDiv, "HUC 6 Watersheds": gsHuc6, "HUC 8 Watersheds": gsHuc8, "HUC 10 Watersheds": gsHuc10, "HUC 12 Watersheds": gsHuc12, "Structure (K=2)": gsStruct_2k, "Structure (K=3)": gsStruct_3k, "Structure (K=4)": gsStruct_4k, "Structure (K=5)": gsStruct_5k, "Structure (K=6)": gsStruct_6k, "Structure (K=7)": gsStruct_7k, "DAPC (K=2)": gsDapc_2k, "DAPC (K=3)": gsDapc_3k, "DAPC (K=4)": gsDapc_4k, "DAPC (K=5)": gsDapc_5k, "DAPC (K=6)": gsDapc_6k, "DAPC (K=7)": gsDapc_7k, "DAPC (K=10)": gsDapc_10k};  
-      var overlays = {"States": gsStates, "Continental Divide": gsContDiv, "HUC 2 Watersheds": gsHuc2, "HUC 4 Watersheds": gsHuc4, "HUC 6 Watersheds": gsHuc6, "HUC 8 Watersheds": gsHuc8, "HUC 10 Watersheds": gsHuc10, "HUC 12 Watersheds": gsHuc12, "Structure (K=2)": gsStruct_2k, "Structure (K=3)": gsStruct_3k, "Structure (K=4)": topos.struct.k4, "Structure (K=5)": gsStruct_5k, "Structure (K=6)": gsStruct_6k, "Structure (K=7)": gsStruct_7k, "DAPC (K=2)": gsDapc_2k, "DAPC (K=3)": gsDapc_3k, "DAPC (K=4)": topos.dapc.k4, "DAPC (K=5)": gsDapc_5k, "DAPC (K=6)": gsDapc_6k, "DAPC (K=7)": gsDapc_7k, "DAPC (K=10)": gsDapc_10k};  
-      var overlaysHatch = {"States": gsStates, "Continental Divide": gsContDiv, "HUC 6 Watersheds": gsHuc6, "HUC 8 Watersheds": gsHuc8, "HUC 10 Watersheds": gsHuc10, "HUC 12 Watersheds": gsHuc12, "Structure Hatchery (K=2)": gsStruct_2k_hatch, "Structure Hatchery (K=3)": gsStruct_3k_hatch, "Structure Hatchery (K=4)": topos.hatchS.k4, "Structure Hatchery (K=5)": gsStruct_5k_hatch, "Structure Hatchery (K=6)": gsStruct_6k_hatch, "Structure Hatchery (K=7)": gsStruct_7k_hatch, "DAPC Hatchery (K=2)": gsDapc_2k_hatch, "DAPC Hatchery (K=3)": gsDapc_3k_hatch, "DAPC Hatchery (K=4)": gsDapc_4k_hatch, "DAPC Hatchery (K=5)": gsDapc_5k_hatch, "DAPC Hatchery (K=6)": gsDapc_6k_hatch, "DAPC Hatchery (K=7)": gsDapc_7k_hatch, "DAPC Hatchery (K=10)": gsDapc_10k_hatch};
-      var overlaysPlots = {"States": null, "Continental Divide": null, "HUC 6 Watersheds": null, "HUC 8 Watersheds": null, "HUC 10 Watersheds": null, "HUC 12 Watersheds": null, "Structure (K=2)": "noplot", "Structure (K=3)": "noplot", "Structure (K=4)": "noplot", "Structure (K=5)": "noplot", "Structure (K=6)": "noplot", "Structure (K=7)": "noplot", "DAPC (K=2)": "dapc_K2", "DAPC (K=3)": "dapc_K3", "DAPC (K=4)": "dapc_K4", "DAPC (K=5)": "dapc_K5", "DAPC (K=6)": "dapc_K6", "DAPC (K=7)": "dapc_K7", "DAPC (K=10)": "dapc_K10"};
-      var layerNames = {};
-      layerNames.baseLayers = {};
-      layerNames.baseLayers.keys = d3.keys(baseLayers);
-      layerNames.baseLayers.values = d3.values(baseLayers);
-      layerNames.overlays = {};
-      layerNames.overlays.keys = d3.keys(overlays);
-      layerNames.overlays.values = d3.values(overlays);
-      layerNames.overlaysHatch = {};
-      layerNames.overlaysHatch.keys = d3.keys(overlaysHatch);
-      layerNames.overlaysHatch.values = d3.values(overlaysHatch);
-      layerNames.overlaysPlots = {};
-      layerNames.overlaysPlots.keys = d3.keys(overlaysPlots);
-      layerNames.overlaysPlots.values = d3.values(overlaysPlots);
-*/
 
 
       //******Add map controls
@@ -572,33 +334,138 @@
           .enter().append("g")
             .attr("value", function(d) { return d.properties.Longitude + "," + d.properties.Latitude; })
             .attr("transform",function(d) { return "translate("+projectPoint([d.properties.Longitude,d.properties.Latitude])+")" })
-            .attr("class", "pies " + topo.pieClass);
-        
+            .attr("class", "pies " + topo.pieClass)
+            .on("click", function(data) { getAttributes(data.properties, topo, this); resizePanels(); });
+
         var pies = tmpFeats.selectAll(".pies")
-            .data(function(d) { var tmpPie = pie(d.properties.Data.split(['-'])); tmpPie.forEach(function(obj) { obj.loc = d.properties["General Location"]; obj.data = d.properties.Data.split("-"); }); return tmpPie; })
+            .data(function(d) { 
+              if(topo.class == "genMet") {
+                if(isNaN(d.properties[topo.metric]) == false) {
+                  var tmpPie = pie([d.properties[topo.metric]]);
+                }
+                else {
+                  var tmpPie = pie([1]);
+                  tmpPie[0].data = d.properties[topo.metric];
+                  tmpPie[0].value = d.properties[topo.metric];
+                }
+              }
+              else {
+                var tmpPie = pie(d.properties.Data.split(['-']));
+              } 
+
+              tmpPie.forEach(function(obj) { 
+                obj.loc = d.properties["General Location"]; 
+                if(topo.class == "genMet") {
+                  obj.data = [d.properties[topo.metric]];
+                  if(topo.metric == "Ne") {
+                    obj.LCI = d.properties.Ne_95LCI;
+                    obj.UCI = d.properties.Ne_95UCI;
+                  }
+                }
+                else {
+                  obj.data = d.properties.Data.split("-"); 
+                }
+              }); 
+              return tmpPie; 
+            })
           .enter().append("g")
             .attr("class", "arc");
 
         pies.append("path")
           .attr("d", arc) 
-          .attr("fill", function(d,i) {return topo.color[i]; })
+          .attr("fill", function(d,i) {
+            if(topo.class == "genMet") {
+              if(isNaN(d.value) == false) {
+                if(topo.metric == "Ne" || topo.metric == "N") {
+                  var tmpColor = topo.color(Math.log(+d.value)/Math.log(genMetMaxes[topo.metric]));
+                }
+                else {
+                  if(topo.metric == "He_res" || topo.metric == "AR_res" || topo.metric == "Ne_res") {
+                    var tmpColor = topo.color((+d.value + Math.abs(genMetMins[topo.metric]))/(genMetMaxes[topo.metric] + Math.abs(genMetMins[topo.metric])));
+                  }
+                  else {
+                    var tmpColor = topo.color((+d.value - genMetMins[topo.metric])/(genMetMaxes[topo.metric] - genMetMins[topo.metric]));
+                  }
+                }
+              }
+              else {
+                var tmpColor = "grey";
+              }
+              return tmpColor; 
+            }
+            else {
+              return topo.color[i];
+            }
+          })
           .attr("id", function(d,i) {
             if(i > 10 && i == d.data.length - 1) {
               var tmpStr = 'Other';
             }
+            else if(topo.class == "genMet") {
+              var tmpStr = topo.title;
+            }
             else {
               var tmpStr = 'K' + (i + 1);
             }
-            return d.loc + '\n<span style="background:' + topo.color[i] + ';">' + tmpStr + ' = ' + d.value + '%</span>'; 
+            if(topo.class == "genMet") {
+              if(isNaN(d.data[0]) == false) {
+                if(topo.metric == "Ne" || topo.metric == "N") {
+                  var tmpColor = topo.color(Math.log(+d.data[0])/Math.log(genMetMaxes[topo.metric]));
+                }
+                else {
+                  if(topo.metric == "He_res" || topo.metric == "AR_res" || topo.metric == "Ne_res") {
+                    var tmpColor = topo.color((+d.data[0] + Math.abs(genMetMins[topo.metric]))/(genMetMaxes[topo.metric] + Math.abs(genMetMins[topo.metric])));
+                  }
+                  else {
+                    var tmpColor = topo.color((+d.data[0] - genMetMins[topo.metric])/(genMetMaxes[topo.metric] - genMetMins[topo.metric]));
+                  }
+                }
+              }
+              else {
+                var tmpColor = "grey";
+              }
+              if(topo.metric == "Ne") {
+                return d.loc + '\n<span style="background:' + tmpColor + ';">' + tmpStr + ' = ' + d.value + ' (' + d.LCI + ' - ' + d.UCI + ')</span>'; 
+              }
+              else {
+                return d.loc + '\n<span style="background:' + tmpColor + ';">' + tmpStr + ' = ' + d.value + '</span>'; 
+              }
+            }
+            else {
+              return d.loc + '\n<span style="background:' + topo.color[i] + ';">' + tmpStr + ' = ' + d.value + '%</span>'; 
+            }
           })
           .on("mouseover", function(data,i) { showIt(this.id, data, i, topo); resizeTooltip(); })
-          .on("mousemove", function() { tooltip.style("top", (d3.event.pageY-40) + "px").style("left", (d3.event.pageX+15) + "px"); resizeTooltip(); })
+          .on("mousemove", function() {
+            var ttWidth = document.getElementById("d3Tooltip").offsetWidth;
+            if(d3.event.pageX + 15 + ttWidth < window.innerWidth) {
+              tooltip.style("top", (d3.event.pageY-40) + "px").style("left", (d3.event.pageX+15) + "px"); resizeTooltip();
+            }
+            else {
+              tooltip.style("top", (d3.event.pageY-40) + "px").style("left", (d3.event.pageX-15-ttWidth) + "px"); resizeTooltip();
+            }
+          })
           .on("mouseout", function() { tooltip.style("visibility", "hidden"); });
 
         d3.select("#curDataLayer")
           .text(topo.title)
           .classed("activeLayer", true);
+
+        if((topo.class == "genMet" && d3.select("#topoLegendDiv").style("opacity") != 1) || (topo.class != "genMet" && d3.select("#topoLegendDiv").style("opacity") == 1)) {
+          toolWindowToggle("topoLegend");
+        }
+
+        if(topo.class == "genMet") {
+          d3.selectAll(".colorLegDiv")
+            .style("background", function(d,i) { return topo.color(i/100); });
+          d3.select("#topoLegendMetDiv").text(topo.title).property("title", topo.tooltip[topo.metric]);
+          d3.select("#topoLegMinP").text(genMetMins[topo.metric]);
+          d3.select("#topoLegMaxP").text(genMetMaxes[topo.metric]);
+        }
       }
+
+
+
 
 
 
@@ -626,27 +493,107 @@
             .attr("data-pie", function(d) { return d.properties.Population; })
             .attr("value", function(d) { return d.properties.Longitude + "," + d.properties.Latitude; })
             .attr("transform",function(d) { return "translate("+projectPointLegend([d.properties.Longitude,d.properties.Latitude])+")" })
-            .attr("class", "pies " + topo.pieClass);
-        
+            .attr("class", "pies " + topo.pieClass)
+            .on("click", function(data) { getAttributes(data.properties, topo, this); resizePanels(); });
+
         var pies = tmpFeats.selectAll(".pies")
-            .data(function(d) { var tmpPie = pie(d.properties.Data.split(['-'])); tmpPie.forEach(function(obj) { obj.loc = d.properties["Population"]; obj.data = d.properties.Data.split("-"); }); return tmpPie; })
+            .data(function(d) { 
+              if(topo.class == "genMetHatch") {
+                if(isNaN(d.properties[topo.metric]) == false) {
+                  var tmpPie = pie([d.properties[topo.metric]]);
+                }
+                else {
+                  var tmpPie = pie([1]);
+                  tmpPie[0].data = d.properties[topo.metric];
+                  tmpPie[0].value = d.properties[topo.metric];
+                }
+              }
+              else {
+                var tmpPie = pie(d.properties.Data.split(['-']));
+              } 
+
+              tmpPie.forEach(function(obj) { 
+                obj.loc = d.properties.Population;
+                if(topo.class == "genMetHatch") {
+                  obj.data = [d.properties[topo.metric]];
+                  if(topo.metric == "Ne") {
+                    obj.LCI = d.properties.Ne_95LCI;
+                    obj.UCI = d.properties.Ne_95UCI;
+                  }
+                }
+                else {
+                  obj.data = d.properties.Data.split("-"); 
+                }
+              }); 
+              return tmpPie; 
+            })
           .enter().append("g")
             .attr("class", "arc");
 
         pies.append("path")
           .attr("d", arcLegend) 
-          .attr("fill", function(d,i) {return topo.color[i]; })
+          .attr("fill", function(d,i) { //return topo.color[i]; })
+            if(topo.class == "genMetHatch") {
+              if(isNaN(d.value) == false) {
+                if(topo.metric == "Ne" || topo.metric == "N") {
+                  var tmpColor = topo.color(Math.log(+d.value)/Math.log(genMetMaxes[topo.metric]));
+                }
+                else {
+                  var tmpColor = topo.color((+d.value - genMetMins[topo.metric])/(genMetMaxes[topo.metric] - genMetMins[topo.metric]));
+                }
+              }
+              else {
+                var tmpColor = "grey";
+              }
+              return tmpColor; 
+            }
+            else {
+              return topo.color[i];
+            }
+          })
           .attr("id", function(d,i) {
             if(i > 10 && i == d.data.length - 1) {
               var tmpStr = 'Other';
             }
+            else if(topo.class == "genMetHatch") {
+              var tmpStr = topo.title;
+            }
             else {
               var tmpStr = 'K' + (i + 1);
             }
-            return d.loc + '\n<span style="background:' + topo.color[i] + ';">' + tmpStr + ' = ' + d.value + '%</span>'; 
+            if(topo.class == "genMetHatch") {
+              if(isNaN(d.data[0]) == false) {
+                if(topo.metric == "Ne" || topo.metric == "N") {
+                  var tmpColor = topo.color(Math.log(+d.data[0])/Math.log(genMetMaxes[topo.metric]));
+                }
+                else {
+                  var tmpColor = topo.color((+d.data[0] - genMetMins[topo.metric])/(genMetMaxes[topo.metric] - genMetMins[topo.metric]));
+                }
+              }
+              else {
+                var tmpColor = "grey";
+              }
+              if(topo.metric == "Ne") {
+                return d.loc + '\n<span style="background:' + tmpColor + ';">' + tmpStr + ' = ' + d.value + ' (' + d.LCI + ' - ' + d.UCI + ')</span>'; 
+              }
+              else {
+                return d.loc + '\n<span style="background:' + tmpColor + ';">' + tmpStr + ' = ' + d.value + '</span>'; 
+              }
+            }
+            else {
+              return d.loc + '\n<span style="background:' + topo.color[i] + ';">' + tmpStr + ' = ' + d.value + '%</span>'; 
+            }
            })
           .on("mouseover", function(data,i) { showIt(this.id, data, i, topo); resizeTooltip(); })
-          .on("mousemove", function() { tooltip.style("top", (d3.event.pageY-40) + "px").style("left", (d3.event.pageX+15) + "px"); resizeTooltip(); })
+          .on("mousemove", function() { //tooltip.style("top", (d3.event.pageY-40) + "px").style("left", (d3.event.pageX+15) + "px"); resizeTooltip(); })
+            var ttWidth = document.getElementById("d3Tooltip").offsetWidth;
+            if(d3.event.pageX + 15 + ttWidth < window.innerWidth) {
+              tooltip.style("top", (d3.event.pageY-40) + "px").style("left", (d3.event.pageX+15) + "px"); resizeTooltip();
+            }
+            else {
+              tooltip.style("top", (d3.event.pageY-40) + "px").style("left", (d3.event.pageX-15-ttWidth) + "px"); resizeTooltip();
+            }
+          })
           .on("mouseout", function() { tooltip.style("visibility", "hidden"); });
 
         d3.selectAll("." + topo.pieClass)
@@ -673,8 +620,12 @@
           }
         });
 
-        
         d3.selectAll("." + topo.pieClass).remove();
+
+        if(layers.length == 0 && d3.select("#topoLegendDiv").style("opacity") == 1) {
+          toolWindowToggle("topoLegend");
+        }
+
         if(tmpLast == true) {
           addTopo(layers[layers.length - 1]);
         }
@@ -729,9 +680,9 @@
           if(winRect.bottom > mapRect.bottom) {
             d3.select("#" + win).style("top", mapRect.height - winRect.height + "px");
           }
-          if(winRect.right > mapRect.right) {
-            d3.select("#" + win).style("left", mapRect.width - winRect.width + "px");
-          }
+          //if(winRect.right > mapRect.right) {
+          //  d3.select("#" + win).style("left", mapRect.width - winRect.width + "px");
+          //}
         });
       }
 
@@ -751,9 +702,19 @@
       //******Make layer controller
       var baseLayers = {"Google Terrain": googleTerrain, "Google Hybrid": googleHybrid, "Google Satellite": googleSatellite, "Google Street": googleStreet, "Bing Hybrid": bingHybrid, "Bing Satellite": bingSatellite, "Bing Street": bingStreet, "USGS Topo": usgsTopo, "State Outlines": states, "None": blank};
       var overlays = {"States": gsStates, "Continental Divide": gsContDiv, "HUC 2 Watersheds": gsHuc2, "HUC 4 Watersheds": gsHuc4, "HUC 6 Watersheds": gsHuc6, "HUC 8 Watersheds": gsHuc8, "HUC 10 Watersheds": gsHuc10, "HUC 12 Watersheds": gsHuc12, "EBTJV Patches": gsBktPatches, "Streams": gsNHDStreams, "Waterbodies": gsNHDWaterbodies};  
-      var overlaysData = {"Structure (K=2)": topos.struct.k2, "Structure (K=3)": topos.struct.k3, "Structure (K=4)": topos.struct.k4, "Structure (K=5)": topos.struct.k5, "Structure (K=6)": topos.struct.k6, "Structure (K=7)": topos.struct.k7, "Structure (K=10)": topos.struct.k10, "Structure (K=15)": topos.struct.k15, "DAPC (K=2)": topos.dapc.k2, "DAPC (K=3)": topos.dapc.k3, "DAPC (K=4)": topos.dapc.k4, "DAPC (K=5)": topos.dapc.k5, "DAPC (K=6)": topos.dapc.k6, "DAPC (K=7)": topos.dapc.k7, "DAPC (K=10)": topos.dapc.k10, "DAPC (K=15)": topos.dapc.k15, "DAPC (K=20)": topos.dapc.k20, "DAPC (K=25)": topos.dapc.k25};  
-      var overlaysHatch = {"Structure Hatchery (K=2)": topos.hatchS.k2, "Structure Hatchery (K=3)": topos.hatchS.k3, "Structure Hatchery (K=4)": topos.hatchS.k4, "Structure Hatchery (K=5)": topos.hatchS.k5, "Structure Hatchery (K=6)": topos.hatchS.k6, "Structure Hatchery (K=7)": topos.hatchS.k7, "Structure Hatchery (K=10)": topos.hatchS.k10, "Structure Hatchery (K=15)": topos.hatchS.k15, "DAPC Hatchery (K=2)": topos.hatchD.k2, "DAPC Hatchery (K=3)": topos.hatchD.k3, "DAPC Hatchery (K=4)": topos.hatchD.k4, "DAPC Hatchery (K=5)": topos.hatchD.k5, "DAPC Hatchery (K=6)": topos.hatchD.k6, "DAPC Hatchery (K=7)": topos.hatchD.k7, "DAPC Hatchery (K=10)": topos.hatchD.k10, "DAPC Hatchery (K=15)": topos.hatchD.k15, "DAPC Hatchery (K=20)": topos.hatchD.k20, "DAPC Hatchery (K=25)": topos.hatchD.k25};
-      var overlaysPlots = {"Structure (K=2)": "noplot", "Structure (K=3)": "noplot", "Structure (K=4)": "noplot", "Structure (K=5)": "noplot", "Structure (K=6)": "noplot", "Structure (K=7)": "noplot", "Structure (K=10)": "noplot", "Structure (K=15)": "noplot", "DAPC (K=2)": "dapc_K2", "DAPC (K=3)": "dapc_K3", "DAPC (K=4)": "dapc_K4", "DAPC (K=5)": "dapc_K5", "DAPC (K=6)": "dapc_K6", "DAPC (K=7)": "dapc_K7", "DAPC (K=10)": "dapc_K10", "DAPC (K=15)": "dapc_K15", "DAPC (K=20)": "dapc_K20", "DAPC (K=25)": "dapc_K25"};
+      var overlaysData = {"Structure": {}, "DAPC": {}, "Genetics": {}};
+      overlaysData.Structure = {"K=2": topos.struct.k2, "K=3": topos.struct.k3, "K=4": topos.struct.k4, "K=5": topos.struct.k5, "K=6": topos.struct.k6, "K=7": topos.struct.k7, "K=10": topos.struct.k10, "K=15": topos.struct.k15};
+      overlaysData.DAPC = {"K=2": topos.dapc.k2, "K=3": topos.dapc.k3, "K=4": topos.dapc.k4, "K=5": topos.dapc.k5, "K=6": topos.dapc.k6, "K=7": topos.dapc.k7, "K=10": topos.dapc.k10, "K=15": topos.dapc.k15, "K=20": topos.dapc.k20, "K=25": topos.dapc.k25}; 
+      overlaysData.Genetics = {"N": topos.genMet.N, "NA": topos.genMet.Na, "Ho": topos.genMet.Ho, "He": topos.genMet.uHe, "AR": topos.genMet.AR, "Ne": topos.genMet.Ne, "Mean Fst": topos.genMet.Mean_Fst, "He Residual": topos.genMet.He_res, "AR Residual": topos.genMet.AR_res, "Ne Residual": topos.genMet.Ne_res};
+      var overlaysHatch = {"Structure": {}, "DAPC": {}, "Genetics": {}};
+      overlaysHatch.Structure = {"Structure Hatchery (K=2)": topos.hatchS.k2, "Structure Hatchery (K=3)": topos.hatchS.k3, "Structure Hatchery (K=4)": topos.hatchS.k4, "Structure Hatchery (K=5)": topos.hatchS.k5, "Structure Hatchery (K=6)": topos.hatchS.k6, "Structure Hatchery (K=7)": topos.hatchS.k7, "Structure Hatchery (K=10)": topos.hatchS.k10, "Structure Hatchery (K=15)": topos.hatchS.k15};
+      overlaysHatch.DAPC = {"DAPC Hatchery (K=2)": topos.hatchD.k2, "DAPC Hatchery (K=3)": topos.hatchD.k3, "DAPC Hatchery (K=4)": topos.hatchD.k4, "DAPC Hatchery (K=5)": topos.hatchD.k5, "DAPC Hatchery (K=6)": topos.hatchD.k6, "DAPC Hatchery (K=7)": topos.hatchD.k7, "DAPC Hatchery (K=10)": topos.hatchD.k10, "DAPC Hatchery (K=15)": topos.hatchD.k15, "DAPC Hatchery (K=20)": topos.hatchD.k20, "DAPC Hatchery (K=25)": topos.hatchD.k25};
+      overlaysHatch.Genetics = {"N": topos.genMetHatch.N, "NA": topos.genMetHatch.Na, "Ho": topos.genMetHatch.Ho, "He": topos.genMetHatch.uHe, "AR": topos.genMetHatch.AR, "Ne": topos.genMetHatch.Ne, "Mean Fst": topos.genMetHatch.Mean_Fst, "He Residual": topos.genMetHatch.He_res, "AR Residual": topos.genMetHatch.AR_res, "Ne Residual": topos.genMetHatch.Ne_res};
+      var overlaysPlots = {"Structure": {}, "DAPC": {}, "Genetics": {}};
+      overlaysPlots.Structure = {"Structure (K=2)": "noplot", "Structure (K=3)": "noplot", "Structure (K=4)": "noplot", "Structure (K=5)": "noplot", "Structure (K=6)": "noplot", "Structure (K=7)": "noplot", "Structure (K=10)": "noplot", "Structure (K=15)": "noplot"};
+      overlaysPlots.DAPC = {"DAPC (K=2)": "dapc_K2", "DAPC (K=3)": "dapc_K3", "DAPC (K=4)": "dapc_K4", "DAPC (K=5)": "dapc_K5", "DAPC (K=6)": "dapc_K6", "DAPC (K=7)": "dapc_K7", "DAPC (K=10)": "dapc_K10", "DAPC (K=15)": "dapc_K15", "DAPC (K=20)": "dapc_K20", "DAPC (K=25)": "dapc_K25"};
+      overlaysPlots.Genetics = {"N": "noplot", "Na": "noplot", "Ho": "noplot", "He": "noplot", "AR": "noplot", "Ne": "noplot", "Mean_Fst": "noplot", "He_res": "He_meanFst", "AR_res": "AR_meanFst", "Ne_res": "Ne_meanFst"};
+
       layerNames = {};
       layerNames.baseLayers = {};
       layerNames.baseLayers.keys = d3.keys(baseLayers);
@@ -762,15 +723,28 @@
       layerNames.overlays.keys = d3.keys(overlays);
       layerNames.overlays.values = d3.values(overlays);
       layerNames.overlaysData = {};
-      layerNames.overlaysData .keys = d3.keys(overlaysData);
-      layerNames.overlaysData .values = d3.values(overlaysData);
+      layerNames.overlaysData.keys = d3.keys(overlaysData);
+      layerNames.overlaysData.keys.forEach(function(key) {
+        layerNames.overlaysData[key] = {};
+        layerNames.overlaysData[key].keys = d3.keys(overlaysData[key]);
+        layerNames.overlaysData[key].values = d3.values(overlaysData[key]);
+      });
       layerNames.overlaysHatch = {};
       layerNames.overlaysHatch.keys = d3.keys(overlaysHatch);
-      layerNames.overlaysHatch.values = d3.values(overlaysHatch);
+      layerNames.overlaysHatch.keys.forEach(function(key) {
+        layerNames.overlaysHatch[key] = {};
+        layerNames.overlaysHatch[key].keys = d3.keys(overlaysHatch[key]);
+        layerNames.overlaysHatch[key].values = d3.values(overlaysHatch[key]);
+      });
       layerNames.overlaysPlots = {};
       layerNames.overlaysPlots.keys = d3.keys(overlaysPlots);
-      layerNames.overlaysPlots.values = d3.values(overlaysPlots);
+      layerNames.overlaysPlots.keys.forEach(function(key) {
+        layerNames.overlaysPlots[key] = {};
+        layerNames.overlaysPlots[key].keys = d3.keys(overlaysPlots[key]);
+        layerNames.overlaysPlots[key].values = d3.values(overlaysPlots[key]);
+      });
 
+      layerNames.overlaysData.Genetics.titles = {"N": "Sample Size", "NA": "Number of Alleles", "Ho": "Observed Heterozygosity", "He": "Expected Heterozygosity", "AR": "Allelic Richness", "Ne": "Effective Population Size"};
 
       //******Make header control div
       d3.select("body")
@@ -889,9 +863,6 @@
 
 
 
-
-
-
       //******Add population assignment layer select for structure, dapc
       d3.select("#mapTools")
         .append("div")
@@ -914,34 +885,42 @@
         .data(layerNames.overlaysData.keys)
         .enter()
           .append("div")
-          .attr("class", "layerName")
-          .text(function(d) { return d; })
-          .property("value", function(d,i) { return i; })
-          .property("title", function(d) { return d; })
-          .on("click", function(d,i) { changeOverlayData(this, i); })
-          .append("span")
-          .attr("class", "glyphicon glyphicon-ok pull-right activeOverlay")
-          .style("visibility", function(d) { if(d == "Deerfield Watershed") {return "visible";} else {return "hidden";} });
+          .html(function(d) {return '<div class="layerName optDiv" name="' + d + '" title="' + d + '" data-toggle="collapse" data-target="#' + d + 'Suboptions">' + d + '<span class="glyphicon glyphicon-triangle-bottom pull-right activeSpecies"></span></div><div class="suboptDiv collapse" id="' + d + 'Suboptions" name="' + d + '"></div>'; });
+
+      layerNames.overlaysData.keys.forEach(function(key) {
+        d3.select("#" + key + "Suboptions").selectAll("div")
+          .data(layerNames.overlaysData[key].keys)
+          .enter()
+            .append("div")
+            .attr("class", "layerName")
+            .text(function(d) { return d; })
+            .property("value", function(d,i) { return i; })
+            .property("title", function(d) { if(key == "Genetics") { return layerNames.overlaysData.Genetics.titles[d]; } else {return d;} })
+            .on("click", function(d,i) { changeOverlayData(this, i, key); })
+            .append("span")
+            .attr("class", "glyphicon glyphicon-ok pull-right activeOverlay")
+            .style("visibility", "hidden");
+      }); 
 
 
 
 
 
       //******Function to add/remove overlay layer
-      function changeOverlayData(tmpDiv, i) {
+      function changeOverlayData(tmpDiv, i, key) {
         if(d3.select(tmpDiv).select("span").style("visibility") == "hidden") {
           d3.select(tmpDiv).select("span").style("visibility", "visible");
-          addTopo(layerNames.overlaysData.values[i]);
-          addTopoLegend(layerNames.overlaysHatch.values[i]);
+          addTopo(layerNames.overlaysData[key].values[i]);
+          addTopoLegend(layerNames.overlaysHatch[key].values[i]);
           d3.select("#plotsDiv")
             .append("img")
             .attr("id", "plot_" + i)
-            .attr("src", "images/" + layerNames.overlaysPlots.values[i] + ".jpg");
+            .attr("src", "images/" + layerNames.overlaysPlots[key].values[i] + ".jpg");
         } 
         else {
           d3.select(tmpDiv).select("span").style("visibility", "hidden");
-          removeTopo(layerNames.overlaysData.values[i], true);
-          removeTopoLegend(layerNames.overlaysHatch.values[i], true);
+          removeTopo(layerNames.overlaysData[key].values[i], true);
+          removeTopoLegend(layerNames.overlaysHatch[key].values[i], true);
           d3.select("#plot_" + i).remove();
         }
       }
@@ -1166,6 +1145,9 @@
 
 
 
+
+
+
       //******Make div for geoserver legend
       d3.select("body")
         .append("div")
@@ -1174,12 +1156,75 @@
 
       $('#gsLegendDiv').draggable({containment: "body", cancel: ".toggle-group,input,textarea,button,select,option"});
 
+      d3.select("#gsLegendDiv")
+        .append("h4")
+        .text("EBTJV Patches")
+        .attr("class", "legTitle")
+        .attr("id", "gsLegendTitle")
+        .append("span")
+        .html('<span class="glyphicon glyphicon-info-sign help-tooltip" data-toggle="tooltip" data-container="body" data-placement="auto right" data-html="true" title="<p><u><b><center>EBTJV Patches</center></b></u></p><p>Map showing habitat patches derived by the Eastern Brook Trout Joint Venture (EBTJV) for brook trout, brown trout, and rainbow trout.</p>"></span>');
+/* 
+      d3.select("#gsLegendTitle")
+        .append("span")
+        .attr("class", "glyphicon glyphicon-remove pull-right minimize-button")
+        .property("title", "Click to hide EBTJV Patches legend")
+        .on("click", function() { toolWindowToggle("gsLegend"); });
+*/
       //***Add map
       d3.select("#gsLegendDiv")
         .append("img")
         .attr("id", "gsLegendImg");
         //.attr("src", "http://felek.cns.umass.edu:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=30&HEIGHT=30&LAYER=EBTJV:ebtjv_patches_bkt_09_22_16_southern&SCALE=20000");
       
+
+
+
+
+      //******Make div for topo genetic metrics legend
+      d3.select("body")
+        .append("div")
+        .attr("class", "legend gradDown")
+        .attr("id", "topoLegendDiv");
+
+      d3.select("#topoLegendDiv")
+        .append("h4")
+        .text("Legend")
+        .attr("class", "legTitle")
+        .attr("id", "topoLegendTitle")
+        .style({"padding-right":"5px", "padding-left": "10px"})
+        .append("span")
+        .html('<span class="glyphicon glyphicon-info-sign help-tooltip" style="margin-left:10px" data-toggle="tooltip" data-container="body" data-placement="auto right" data-html="true" title="<p><u><b><center>Genetic Metric Legend</center></b></u></p><p>Legend showing the color gradient values for the associated genetic metric.</p>"></span>');
+
+
+      $('#topoLegendDiv').draggable({containment: "body", cancel: ".toggle-group,input,textarea,button,select,option"});
+
+      //***Add image
+      d3.select("#topoLegendDiv")
+        .append("div")
+        .attr("id", "topoLegendMetDiv")
+        .text("Metric");
+ 
+      var divArray = new Array(100);
+      d3.select("#topoLegendDiv")
+        .append("div")
+        .attr("id", "topoLegendImgDiv")
+        .selectAll("div")
+          .data(divArray)
+          .enter()
+            .append("div")
+            .attr("class", "colorLegDiv");
+
+      d3.select("#topoLegendImgDiv")
+        .append("p")
+        .attr("id", "topoLegMinP")
+        .text("0.0");
+
+      d3.select("#topoLegendImgDiv")
+        .append("p")
+        .attr("id", "topoLegMaxP")
+        .text("1.0");
+      
+
 
 
 
@@ -1234,16 +1279,16 @@
       //******Add attribute display heading & glyphs
       d3.select("#attributesDiv")
         .append("h4")
-        .text("Feature Attributes")
+        .text("Genetic Metrics")
         .attr("class", "legTitle")
         .attr("id", "attributesTitle")
         .append("span")
-        .html('<span class="glyphicon glyphicon-info-sign help-tooltip" data-toggle="tooltip" data-placement="auto right" data-container="body"  data-html="true" title="<p><u><b><center>Feature Attributes</center></b></u></p><p>Click on a Crossing, Stream, or Catchment feature to view its attribute values.<br><br>The user has the choice of either viewing all attributes or only those checked in the \'Select Attributes\' window.</p>"></span>');
+        .html('<span class="glyphicon glyphicon-info-sign help-tooltip" data-toggle="tooltip" data-placement="auto right" data-container="body"  data-html="true" title="<p><u><b><center>Sample Genetic Metrics</center></b></u></p><p>Click on a sample point to view its genetic metric values.</p>"></span>');
 
       d3.select("#attributesTitle")
         .append("span")
         .attr("class", "glyphicon glyphicon-remove pull-right minimize-button")
-        .property("title", "Click to hide Feature Attributes window")
+        .property("title", "Click to hide Sample Genetic Metrics window")
         .on("click", function() { toolWindowToggle("attributes"); });
 
       //******Add buttons to display either all or selected attribute values
@@ -1629,12 +1674,12 @@
 
 
       //******Set z-indexes of moveable divs so that clicked one is always on top
-      d3.selectAll("#legendDiv,#gsLegendDiv,#polFilterDiv,#attributesDiv,#attrSelectDiv,#chartsDiv,#downloadDiv")
+      d3.selectAll("#legendDiv,#gsLegendDiv,#topoLegendDiv,#polFilterDiv,#attributesDiv,#attrSelectDiv,#chartsDiv,#downloadDiv")
         .on("mousedown", function() { setZ(this); });
 
       function setZ(tmpWin) {
         if (d3.select("#map").classed("introjs-showElement") == false) {
-          d3.selectAll("#legendDiv,#gsLegendDiv,#polFilterDiv,#attributesDiv,#attrSelectDiv,#chartsDiv,#downloadDiv").style("z-index", function() { if(d3.select(this).style("opacity") == 1) {return 1000;} else {return 750;} }); 
+          d3.selectAll("#legendDiv,#gsLegendDiv,#topoLegendDiv,#polFilterDiv,#attributesDiv,#attrSelectDiv,#chartsDiv,#downloadDiv").style("z-index", function() { if(d3.select(this).style("opacity") == 1) {return 1000;} else {return 750;} }); 
           d3.select(tmpWin).style("z-index", 1001);
         }
       }
@@ -1896,7 +1941,13 @@
       var graphs = [];   //global list of current graphs variable
       var layers = [];   //global list of topoJSON map layers
       var layersLegend = [];  //global list of topoJSON legend map layers 
-      var color = {};
+      var color = {};  //global color palatte object variable for styling topoJSON data
+      var genMetMaxes = {};  //global max value object variable for genetic metrics
+      var genMetMins = {};  //global min value object variable for genetic metrics
+      var tmpMets = [];  //global genetic metric keys
+      var tmpData_type = {};  //global data_type object for genetic metrics
+      var tmpDisplay = {};  //global object for determining if genetic metric key should be displayed in the attributes window
+      var tmpTooltip = {};  //global object for tooltip language for genetic metrics
       var toggleWords = {"legend":"Hatcheries", "attrSelect":"Attribute Selection", "polFilter":"Geographic Filter", "charts":"Plots", "attributes":"Feature Attributes", "download":"Downloads"}
       //var disableJoinMessagePermanent = localStorage.getItem('disableJoinMessagePermanent');  //global variable for not showing spatial join prompt message ever
       //var disableJoinMessageSession = false;  //global variable for not showing spatial join prompt message for rest of session
@@ -1952,6 +2003,8 @@
         .defer(d3.tsv, 'files/dapc_k15_hatch.tsv')
         .defer(d3.tsv, 'files/dapc_k20_hatch.tsv')
         .defer(d3.tsv, 'files/dapc_k25_hatch.tsv')
+        .defer(d3.tsv, 'files/gen_metrics.tsv')
+        .defer(d3.tsv, 'files/gen_metrics_hatch.tsv')
         .await(displayIt);
 
 
@@ -1961,7 +2014,7 @@
 
 
       //******Bind topoJSON data
-      function displayIt(error, dapc,struct,hatch,sK2,sK3,sK4,sK5,sK6,sK7,sK10,sK15,shK2,shK3,shK4,shK5,shK6,shK7,shK10,shK15,dK2,dK3,dK4,dK5,dK6,dK7,dK10,dK15,dK20,dK25,dhK2,dhK3,dhK4,dhK5,dhK6,dhK7,dhK10,dhK15,dhK20,dhK25) {
+      function displayIt(error, dapc,struct,hatch,sK2,sK3,sK4,sK5,sK6,sK7,sK10,sK15,shK2,shK3,shK4,shK5,shK6,shK7,shK10,shK15,dK2,dK3,dK4,dK5,dK6,dK7,dK10,dK15,dK20,dK25,dhK2,dhK3,dhK4,dhK5,dhK6,dhK7,dhK10,dhK15,dhK20,dhK25,genMet,genMetH) {
         topos.struct = {};
         topos.struct.k2 = topojson.feature(struct, struct.objects.struct);
         topos.struct.k3 = topojson.feature(struct, struct.objects.struct);
@@ -2006,6 +2059,31 @@
         topos.hatchD.k20 = topojson.feature(hatch, hatch.objects.hatch);
         topos.hatchD.k25 = topojson.feature(hatch, hatch.objects.hatch);
 
+        //***Use dapc for genetic metrics
+        topos.genMet = {};
+        topos.genMet.N = topojson.feature(dapc, dapc.objects.dapc);
+        topos.genMet.Na = topojson.feature(dapc, dapc.objects.dapc);
+        topos.genMet.Ho = topojson.feature(dapc, dapc.objects.dapc);
+        topos.genMet.uHe = topojson.feature(dapc, dapc.objects.dapc);
+        topos.genMet.AR = topojson.feature(dapc, dapc.objects.dapc);
+        topos.genMet.Ne = topojson.feature(dapc, dapc.objects.dapc);
+        topos.genMet.Mean_Fst = topojson.feature(dapc, dapc.objects.dapc);
+        topos.genMet.He_res = topojson.feature(dapc, dapc.objects.dapc);
+        topos.genMet.AR_res = topojson.feature(dapc, dapc.objects.dapc);
+        topos.genMet.Ne_res = topojson.feature(dapc, dapc.objects.dapc);
+
+        topos.genMetHatch = {};
+        topos.genMetHatch.N = topojson.feature(hatch, hatch.objects.hatch);
+        topos.genMetHatch.Na = topojson.feature(hatch, hatch.objects.hatch);
+        topos.genMetHatch.Ho = topojson.feature(hatch, hatch.objects.hatch);
+        topos.genMetHatch.uHe = topojson.feature(hatch, hatch.objects.hatch);
+        topos.genMetHatch.AR = topojson.feature(hatch, hatch.objects.hatch);
+        topos.genMetHatch.Ne = topojson.feature(hatch, hatch.objects.hatch);
+        topos.genMetHatch.Mean_Fst = topojson.feature(hatch, hatch.objects.hatch);
+        topos.genMetHatch.He_res = topojson.feature(hatch, hatch.objects.hatch);
+        topos.genMetHatch.AR_res = topojson.feature(hatch, hatch.objects.hatch);
+        topos.genMetHatch.Ne_res = topojson.feature(hatch, hatch.objects.hatch);
+
         color.struct = {};
         color.struct.k2 = ['#5ce600','#e200f2'];
         color.struct.k3 = ['#5ce600','#40a6ff','#e200f2'];
@@ -2029,6 +2107,19 @@
         color.dapc.k15 = ["#A6CEE3","#3B8ABE","#72B29C","#84C868","#4F9F3B","#EC9A91","#E93E3F","#F06C45","#FDAC4F","#FB820F","#D1AAB7","#8C66AF","#A99099","#EEDB80","#B15928","#bfbfbf"];
         color.dapc.k20 = ["#A6CEE3","#579CC7","#EB494A","#8BC395","#89CB6C","#40A635","#919D5F","#F99392","#3688AD","#E83C2D","#F79C5D","#FDA746","#FE8205","#E39970","#BFA5CF","#8861AC","#917099","#E7E099","#DEB969","#B15928","#bfbfbf"];
         color.dapc.k25 = ["#A6CEE3","#68A6CD","#2A7FB7","#569EA4","#99CD91","#8CCC6E","#52AF43","#5C9E42","#B89B74","#F88A89","#ED4F50","#E4201F","#F06C45","#FBB86B","#FDA440","#FE870D","#ED8F47","#D5A7A9","#B294C7","#865FAB","#825D99","#C7B699","#F8F18F","#D4A55B","#B15928","#bfbfbf"];
+
+        color.genMet = {};
+        color.genMet.N = function(x) { return d3.interpolatePuBuGn(x); };
+        color.genMet.Na = function(x) { return d3.interpolateYlGnBu(x); };
+        color.genMet.Ho = function(x) { return d3.interpolateGreens(x); };
+        color.genMet.uHe = function(x) { return d3.interpolateOranges(x); };
+        color.genMet.AR = function(x) { return d3.interpolateBuPu(x); };
+        color.genMet.Ne = function(x) { return d3.interpolateYlOrRd(x); };
+        color.genMet.Mean_Fst = function(x) { return d3.interpolateRdPu(x); };
+        color.genMet.He_res = function(x) { return d3.interpolateRdYlBu(x); };
+        color.genMet.AR_res = function(x) { return d3.interpolateRdYlGn(1-x); };
+        color.genMet.Ne_res = function(x) { return d3.interpolateSpectral(1-x); };
+
 
         //******Add properties to topos and push layer (class name, SVG g object, unique identifier short_heading, colorbrewer class)
         addProps("struct", "k2", wildG, "ID", "sK2", color.struct.k2);
@@ -2071,46 +2162,145 @@
 	addProps("hatchD", "k20", hatchG, "ID", "dhK20", color.dapc.k20);
 	addProps("hatchD", "k25", hatchG, "ID", "dhK25", color.dapc.k25);
 
+        addPropsGenMet("genMet", "N", wildG, "ID", "N", "N", color.genMet.N);
+        addPropsGenMet("genMet", "Na", wildG, "ID", "Na", "NA", color.genMet.Na);
+        addPropsGenMet("genMet", "Ho", wildG, "ID", "Ho", "Ho", color.genMet.Ho);
+        addPropsGenMet("genMet", "uHe", wildG, "ID", "uHe", "He", color.genMet.uHe);
+        addPropsGenMet("genMet", "AR", wildG, "ID", "AR", "AR", color.genMet.AR);
+        addPropsGenMet("genMet", "Ne", wildG, "ID", "Ne", "Ne", color.genMet.Ne);
+        addPropsGenMet("genMet", "Mean_Fst", wildG, "ID", "Mean_Fst", "Mean Fst", color.genMet.Mean_Fst);
+        addPropsGenMet("genMet", "He_res", wildG, "ID", "He_res", "He Residual", color.genMet.He_res);
+        addPropsGenMet("genMet", "AR_res", wildG, "ID", "AR_res", "AR Residual", color.genMet.AR_res);
+        addPropsGenMet("genMet", "Ne_res", wildG, "ID", "Ne_res", "Ne Residual", color.genMet.Ne_res);
+
+        addPropsGenMet("genMetHatch", "N", hatchG, "ID", "hN", "N", color.genMet.N);
+        addPropsGenMet("genMetHatch", "Na", hatchG, "ID", "hNa", "Na", color.genMet.Na);
+        addPropsGenMet("genMetHatch", "Ho", hatchG, "ID", "hHo", "Ho", color.genMet.Ho);
+        addPropsGenMet("genMetHatch", "uHe", hatchG, "ID", "huHe", "He", color.genMet.uHe);
+        addPropsGenMet("genMetHatch", "AR", hatchG, "ID", "hAR", "AR", color.genMet.AR);
+        addPropsGenMet("genMetHatch", "Ne", hatchG, "ID", "hNe", "Ne", color.genMet.Ne);
+        addPropsGenMet("genMetHatch", "Mean_Fst", hatchG, "ID", "hMean_Fst", "Mean Fst", color.genMet.Ne);
+        addPropsGenMet("genMetHatch", "He_res", hatchG, "ID", "hHe_res", "He Residual", color.genMet.He_res);
+        addPropsGenMet("genMetHatch", "AR_res", hatchG, "ID", "hAR_res", "AR Residual", color.genMet.AR_res);
+        addPropsGenMet("genMetHatch", "Ne_res", hatchG, "ID", "hNe_res", "Ne Residual", color.genMet.Ne_res);
+
+        tmpData_type = {"ID": "integer", "Population": "text", "Pop": "text", "Sample Size": "integer", "Latitude": "decimal", "Longitude": "decimal", "General Location": "text", "N": "integer", "Na": "decimal", "Ho": "decimal", "uHe": "decimal", "AR": "decimal", "Ne": "decimal", "Ne_95LCI": "decimal", "Ne_95UCI": "decimal", "Mean_Fst": "decimal", "He_res": "decimal", "AR_res": "decimal", "Ne_res": "decimal"};
+        tmpDisplay = {"ID": "no", "Population": "no", "Pop": "no", "Sample Size": "no", "Latitude": "no", "Longitude": "no", "General Location": "yes", "N": "yes", "Na": "yes", "Ho": "yes", "uHe": "yes", "AR": "yes", "Ne": "yes", "Ne_95LCI": "no", "Ne_95UCI": "no", "Mean_Fst": "yes", "He_res": "yes", "AR_res": "yes", "Ne_res": "yes"};
+        tmpTooltip = {"ID": "ID", "Population": "Population", "Pop": "Pop", "Sample Size": "Sample size", "Latitude": "Latitude", "Longitude": "Longitude", "General Location": "Population", "N": "Sample size", "Na": "Number of alleles", "Ho": "Observed heterozygosity", "uHe": "Expected heterozygosity", "AR": "Allelic richness", "Ne": "Effective population size", "Ne_95LCI": "Ne_95LCI", "Ne_95UCI": "Ne_95UCI", "Mean_Fst": "Mean Fst", "He_res": "Expected heterozygosity residual values", "AR_res": "Allelic richness residual values", "Ne_res": "Effective population size residual values"};
+        
+        topos.genMet["General Location"] = {"title": "Population", "tooltip": tmpTooltip};
+        topos.genMetHatch["General Location"] = {"title": "Population", "tooltip": tmpTooltip};
+
+        var tmpDisplayKeys = d3.keys(tmpDisplay);
+        tmpDisplayKeys.forEach(function(d) {
+          if(tmpDisplay[d] == "no") {
+            topos.genMet[d] = {"title": d, "tooltip": tmpTooltip};
+            topos.genMetHatch[d] = {"title": d, "tooltip": tmpTooltip};
+          }
+        });
+
         //******Add covariate TSV files to topojson
-        readTSV(sK2, topos.struct.k2);
-        readTSV(sK3, topos.struct.k3);
-        readTSV(sK4, topos.struct.k4);
-        readTSV(sK5, topos.struct.k5);
-        readTSV(sK6, topos.struct.k6);
-        readTSV(sK7, topos.struct.k7);
-        readTSV(sK10, topos.struct.k10);
-        readTSV(sK15, topos.struct.k15);
+        readTSV(sK2, topos.struct.k2); readTSV(genMet, topos.struct.k2);
+        readTSV(sK3, topos.struct.k3); readTSV(genMet, topos.struct.k3);
+        readTSV(sK4, topos.struct.k4); readTSV(genMet, topos.struct.k4);
+        readTSV(sK5, topos.struct.k5); readTSV(genMet, topos.struct.k5);
+        readTSV(sK6, topos.struct.k6); readTSV(genMet, topos.struct.k6);
+        readTSV(sK7, topos.struct.k7); readTSV(genMet, topos.struct.k7);
+        readTSV(sK10, topos.struct.k10); readTSV(genMet, topos.struct.k10);
+        readTSV(sK15, topos.struct.k15); readTSV(genMet, topos.struct.k15);
 
-        readTSV(dK2, topos.dapc.k2);
-        readTSV(dK3, topos.dapc.k3);
-        readTSV(dK4, topos.dapc.k4);
-        readTSV(dK5, topos.dapc.k5);
-        readTSV(dK6, topos.dapc.k6);
-        readTSV(dK7, topos.dapc.k7);
-        readTSV(dK10, topos.dapc.k10);
-        readTSV(dK15, topos.dapc.k15);
-        readTSV(dK20, topos.dapc.k20);
-        readTSV(dK25, topos.dapc.k25);
+        readTSV(dK2, topos.dapc.k2); readTSV(genMet, topos.dapc.k2);
+        readTSV(dK3, topos.dapc.k3); readTSV(genMet, topos.dapc.k3);
+        readTSV(dK4, topos.dapc.k4); readTSV(genMet, topos.dapc.k4);
+        readTSV(dK5, topos.dapc.k5); readTSV(genMet, topos.dapc.k5);
+        readTSV(dK6, topos.dapc.k6); readTSV(genMet, topos.dapc.k6);
+        readTSV(dK7, topos.dapc.k7); readTSV(genMet, topos.dapc.k7);
+        readTSV(dK10, topos.dapc.k10); readTSV(genMet, topos.dapc.k10);
+        readTSV(dK15, topos.dapc.k15); readTSV(genMet, topos.dapc.k15);
+        readTSV(dK20, topos.dapc.k20); readTSV(genMet, topos.dapc.k20);
+        readTSV(dK25, topos.dapc.k25); readTSV(genMet, topos.dapc.k25);
 
-        readTSV(shK2, topos.hatchS.k2);
-        readTSV(shK3, topos.hatchS.k3);
-        readTSV(shK4, topos.hatchS.k4);
-        readTSV(shK5, topos.hatchS.k5);
-        readTSV(shK6, topos.hatchS.k6);
-        readTSV(shK7, topos.hatchS.k7);
-        readTSV(shK10, topos.hatchS.k10);
-        readTSV(shK15, topos.hatchS.k15);
+        readTSV(shK2, topos.hatchS.k2); readTSV(genMetH, topos.hatchS.k2);
+        readTSV(shK3, topos.hatchS.k3); readTSV(genMetH, topos.hatchS.k3);
+        readTSV(shK4, topos.hatchS.k4); readTSV(genMetH, topos.hatchS.k4);
+        readTSV(shK5, topos.hatchS.k5); readTSV(genMetH, topos.hatchS.k5);
+        readTSV(shK6, topos.hatchS.k6); readTSV(genMetH, topos.hatchS.k6);
+        readTSV(shK7, topos.hatchS.k7); readTSV(genMetH, topos.hatchS.k7);
+        readTSV(shK10, topos.hatchS.k10); readTSV(genMetH, topos.hatchS.k10);
+        readTSV(shK15, topos.hatchS.k15); readTSV(genMetH, topos.hatchS.k15);
 
-        readTSV(dhK2, topos.hatchD.k2);
-        readTSV(dhK3, topos.hatchD.k3);
-        readTSV(dhK4, topos.hatchD.k4);
-        readTSV(dhK5, topos.hatchD.k5);
-        readTSV(dhK6, topos.hatchD.k6);
-        readTSV(dhK7, topos.hatchD.k7);
-        readTSV(dhK10, topos.hatchD.k10);
-        readTSV(dhK15, topos.hatchD.k15);
-        readTSV(dhK20, topos.hatchD.k20);
-        readTSV(dhK25, topos.hatchD.k25);
+        readTSV(dhK2, topos.hatchD.k2); readTSV(genMetH, topos.hatchD.k2);
+        readTSV(dhK3, topos.hatchD.k3); readTSV(genMetH, topos.hatchD.k3);
+        readTSV(dhK4, topos.hatchD.k4); readTSV(genMetH, topos.hatchD.k4);
+        readTSV(dhK5, topos.hatchD.k5); readTSV(genMetH, topos.hatchD.k5);
+        readTSV(dhK6, topos.hatchD.k6); readTSV(genMetH, topos.hatchD.k6);
+        readTSV(dhK7, topos.hatchD.k7); readTSV(genMetH, topos.hatchD.k7);
+        readTSV(dhK10, topos.hatchD.k10); readTSV(genMetH, topos.hatchD.k10);
+        readTSV(dhK15, topos.hatchD.k15); readTSV(genMetH, topos.hatchD.k15);
+        readTSV(dhK20, topos.hatchD.k20); readTSV(genMetH, topos.hatchD.k20);
+        readTSV(dhK25, topos.hatchD.k25); readTSV(genMetH, topos.hatchD.k25);
+
+        readTSV(genMet, topos.genMet.N);
+        readTSV(genMet, topos.genMet.Na);
+        readTSV(genMet, topos.genMet.Ho);
+        readTSV(genMet, topos.genMet.uHe);
+        readTSV(genMet, topos.genMet.AR);
+        readTSV(genMet, topos.genMet.Ne);
+        readTSV(genMet, topos.genMet.Mean_Fst);
+        readTSV(genMet, topos.genMet.He_res);
+        readTSV(genMet, topos.genMet.AR_res);
+        readTSV(genMet, topos.genMet.Ne_res);
+
+        readTSV(genMetH, topos.genMetHatch.N);
+        readTSV(genMetH, topos.genMetHatch.Na);
+        readTSV(genMetH, topos.genMetHatch.Ho);
+        readTSV(genMetH, topos.genMetHatch.uHe);
+        readTSV(genMetH, topos.genMetHatch.AR);
+        readTSV(genMetH, topos.genMetHatch.Ne);
+        readTSV(genMetH, topos.genMetHatch.Mean_Fst);
+        readTSV(genMetH, topos.genMetHatch.He_res);
+        readTSV(genMetH, topos.genMetHatch.AR_res);
+        readTSV(genMetH, topos.genMetHatch.Ne_res);
+
+        //******Get max & min values for genetic metrics for color scaling
+        tmpMets = ["N", "Na", "Ho", "uHe", "AR", "Ne", "Mean_Fst", "He_res", "AR_res", "Ne_res"];
+
+        tmpMets.forEach(function(met) {
+          //***Maxes
+          var tmpMax = 0;
+          //***Check wild pops
+          for(i=0; i<genMet.length; i++) {
+            if(isNaN(genMet[i][met]) == false) {
+              if(+genMet[i][met] > tmpMax) { tmpMax = +genMet[i][met]; }
+            }
+          }
+
+          //***Check hatchery pops
+          for(i=0; i<genMetH.length; i++) {
+            if(isNaN(genMetH[i][met]) == false) {
+              if(+genMetH[i][met] > tmpMax) { tmpMax = +genMetH[i][met]; }
+            }
+          }
+          genMetMaxes[met] = tmpMax;
+
+          //***Maxes
+          var tmpMin = tmpMax;
+          //***Check wild pops
+          for(i=0; i<genMet.length; i++) {
+            if(isNaN(genMet[i][met]) == false) {
+              if(+genMet[i][met] < tmpMin) { tmpMin = +genMet[i][met]; }
+            }
+          }
+
+          //***Check hatchery pops
+          for(i=0; i<genMetH.length; i++) {
+            if(isNaN(genMetH[i][met]) == false) {
+              if(+genMetH[i][met] < tmpMin) { tmpMin = +genMetH[i][met]; }
+            }
+          }
+          genMetMins[met] = tmpMin;
+        });
+
 
         //******Add layer dropdowns
         makeLayers();
@@ -2424,9 +2614,7 @@
 
 
       //******Add attribute names and values to table
-      function getAttributes(tmpFeat, topo, opacity) {
-        if (opacity == 0) {return;}
-
+      function getAttributes(tmpFeat, topo) {
         d3.select("#noAttrText").style("display", "none");
         d3.select("#attValuesTable").style("display", "table");
 
@@ -2451,12 +2639,14 @@
         cells.enter()
             .append('td')
             .attr("class", "attTD");
+
+        var tmpBi = 0;
         cells
-          .text(function(d) { if (d.column == "att") {return formatTitle(topo, d.value);} else {return d.value;} })
-          .property("title", function(d) {if (d.column == "att") {return topo.tooltip[d.value];} else {return d.value;} });
+          .text(function(d) { if (d.column == "att") {if(d.value == "Ne") {tmpBi = 1;} return topos.genMet[d.value].title;} else { if(tmpBi != 1) {return d.value;} else {tmpBi = 0; return d.value + " (" + tmpFeat.Ne_95LCI + " - " + tmpFeat.Ne_95UCI + ")";}} })
+          .property("title", function(d) {if (d.column == "att") {if(d.value == "Ne") {tmpBi = 1;} return topos.genMet[d.value].tooltip[d.value];} else { if(tmpBi != 1) {return d.value;} else {tmpBi = 0; return d.value + " (" + tmpFeat.Ne_95LCI + " - " + tmpFeat.Ne_95UCI + ")";}} });
 
         //******Style window
-        d3.select("#attrShow").style("display", "block"); 
+        //d3.select("#attrShow").style("display", "block"); 
         if(d3.select("#attrShowSel").style("background-color") != "rgba(0, 0, 0, 0)") {
           styleAttributes("attrShowSel");
         }
@@ -2489,12 +2679,12 @@
 
       //******Format title and units
       function formatTitle(topo, att) {
-        if (topo.unit[att]) {
-          return topo.title[att]  + " (" + topo.unit[att] + ")";
-        }
-        else {
+        //if (topo.unit[att]) {
+        //  return topo.title[att]  + " (" + topo.unit[att] + ")";
+        //}
+        //else {
           return topo.title[att];
-        }
+        //}
       }
 
 
@@ -2502,15 +2692,10 @@
       function formatAtt(topo, att, val) {
         switch (topo.data_type[att]) {
           case "decimal":
-            var tmpVal = val.toFixed(2);
+            var tmpVal = val;
             break;
           case "text":
-            if (Object.keys(topo.conversion[att]).length == 1) {
-              var tmpVal = val;
-            }
-            else {
-              var tmpVal = topo.conversion[att][val];
-            }
+            var tmpVal = val;
             break;
           case "integer":
             var tmpVal = val;
@@ -2576,6 +2761,23 @@
         //hist[tmpName][tmpK] = {};
         //layers.push(tmpName);
       }
+
+
+
+
+
+      //******Add properties to topos and push layer
+      function addPropsGenMet(tmpName, tmpMet, tmpG, tmpID, tmpPieClass, tmpTitle, tmpColor) {
+        topos[tmpName][tmpMet].class = tmpName;
+        topos[tmpName][tmpMet].g = tmpG;
+        topos[tmpName][tmpMet].uniqueID = tmpID;
+        topos[tmpName][tmpMet].pieClass = tmpPieClass;
+        topos[tmpName][tmpMet].metric = tmpMet;
+        topos[tmpName][tmpMet].covType = {};
+        topos[tmpName][tmpMet].title = tmpTitle;
+        topos[tmpName][tmpMet].color = tmpColor;
+      }
+
 
 
 
@@ -3064,7 +3266,7 @@
           var tmpVals = d3.values(d);
           tmpVals.forEach(function(val,i){ 
             if (val == "NA") {
-              tmpJSON[tmpKeys[i]] = -9999;
+              tmpJSON[tmpKeys[i]] = d[tmpKeys[i]];
             }
             else if (isNaN(val) == false) {
               tmpJSON[tmpKeys[i]] = +d[tmpKeys[i]];
@@ -3090,6 +3292,10 @@
         //******Get keys and values from TSV data and fill out covariate data type
         var tmpKeys = d3.keys(tmpData[0]);
         var tmpVals = d3.values(tmpData[0]);
+        topo.keys = tmpKeys;
+        topo.data_type = tmpData_type;
+        topo.display = tmpDisplay;
+        topo.tooltip = tmpTooltip;
 
         tmpVals.forEach(function(val,i){
           if (isNaN(val) == false || val == "NA") {
@@ -3110,7 +3316,12 @@
         topo.features.forEach(function(d) { 
           try {
             tmpKeys.forEach(function(key) {
+              if((topo.class.includes("Hatch") || topo.class.includes("hatch")) && key == "General Location") {
+                d.properties[key] = tmpMap.get(d.id)["Population"];
+              }
+              else {
                 d.properties[key] = tmpMap.get(d.id)[key];
+              }
             });
           }
           catch(err) { 
@@ -3120,6 +3331,7 @@
 
         return tmpCov;
       }
+
 
 
 
@@ -3197,31 +3409,75 @@
 
       //*******Show crossings attribute in tooltip
       function showIt(tmpID, tmpData, i, topo) {
+        var tmpPieText = "value";
         tooltip.html(tmpID);
         tooltip.style("visibility", "visible");
         tooltip.property("title", tmpID);
         tooltip.append("div")
           .attr("id","piechart")
           .style({"width":"600px", "height":"400px"});
-       
-        var data = [["k","prob"]];
-        tmpData.data.forEach(function(d,i) {
-          if(tmpData.data.length < 10) {
-            data.push(["K" + (i + 1), +d]); 
-          }
-          else if(i < tmpData.data.length -1) {
-            data.push(["K" + (i + 1), +d]);
-          }
-          else {
-            data.push(["Other", +d]);
-          }
-        });
+        if(topo.class == "genMet" || topo.class == "genMetHatch") {
+          var tmpPieValue = "";
+          var tmpColor = [];
+          var data = [[topo.title,"Value"]];
+          tmpData.data.forEach(function(d,i) {
+            tmpPieValue = d;
+            if(isNaN(d) == false) {
+              if(topo.metric == "Ne" || topo.metric == "N") {
+                data.push([topo.title,Math.abs(+d)]);
+                tmpColor.push(topo.color(Math.log(+d)/Math.log(genMetMaxes[topo.metric])));
+              }
+              else {
+                if(topo.metric == "He_res" || topo.metric == "AR_res" || topo.metric == "Ne_res") {
+                  data.push([topo.title.substring(0,2) + "\nRes",Math.abs(+d)]);
+                  tmpColor.push(topo.color((+d + Math.abs(genMetMins[topo.metric]))/(genMetMaxes[topo.metric] + Math.abs(genMetMins[topo.metric]))));
+                }
+                else if(topo.metric == "Mean_Fst") {
+                  data.push(["Mean\nFst",Math.abs(+d)]);
+                  tmpColor.push(topo.color((+d - genMetMins[topo.metric])/(genMetMaxes[topo.metric] - genMetMins[topo.metric])));
+                }
+                else {
+                  data.push([topo.title,Math.abs(+d)]);
+                  tmpColor.push(topo.color((+d - genMetMins[topo.metric])/(genMetMaxes[topo.metric] - genMetMins[topo.metric])));
+                }
+              }
+            }
+            else {
+              tmpPieText = "none";
+                if(topo.metric == "He_res" || topo.metric == "AR_res" || topo.metric == "Ne_res") {
+                  data.push([topo.title.substring(0,2) + "\nRes",1]);
+                }
+                else if(topo.metric == "Mean_Fst") {
+                  data.push(["Mean\nFst",1]);
+                }
+                else {
+                  data.push([topo.title,1]);
+                }
+              tmpColor.push("grey");
+            }
+          });
+        }
+        else {
+          var data = [["k","prob"]];
+          tmpData.data.forEach(function(d,i) {
+            if(tmpData.data.length < 10) {
+              data.push(["K" + (i + 1), +d]); 
+            }
+            else if(i < tmpData.data.length -1) {
+              data.push(["K" + (i + 1), +d]);
+            }
+            else {
+              data.push(["Other", +d]);
+            }
+          });
+          var tmpColor = topo.color;
+        }
         var chartData = google.visualization.arrayToDataTable(data);
         var options = {
           backgroundColor: "transparent",
-          colors: topo.color,
+          colors: tmpColor,
           legend: {position: 'right', alignment: "center", textStyle: {color: 'white', fontSize: 16}},
-          pieSliceText: "value",
+          pieSliceText: tmpPieText,
           chartArea: {height: 350, top: 0, left: 0},
           enableInteractivity: false,
           sliceVisibilityThreshold: 0.000001
@@ -3229,7 +3485,12 @@
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(chartData, options);
-        
+
+        var x = d3.select("#piechart").selectAll("text")
+        if(x[0].length == 3) {
+          d3.select(x[0][x[0].length - 1]).text(tmpPieValue)
+        }
+      
         //***Highlight selected slice NOTE: doesn't work because google charts doesn't append slices in order
         //var tmpG = d3.select("#piechart").select("svg").selectAll(function() { return this.childNodes; }).filter("g")[0][i+1];
         //d3.select(tmpG).select("path").attr("stroke", "#ffff00");
