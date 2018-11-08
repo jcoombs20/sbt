@@ -126,7 +126,7 @@
             attribution: '<a href="http://www.doi.gov">U.S. Department of the Interior</a> | <a href="http://www.usgs.gov">U.S. Geological Survey</a> | <a href="http://www.usgs.gov/laws/policies_notices.html">Policies</a>'
             });
       var states = new L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-          layers: 'us_states',
+          layers: 'us_states_wgs84',
           format: 'image/png',
           transparent: true,
           version: '1.1.0',
@@ -135,8 +135,8 @@
       var blank = new L.tileLayer('');
     
       //******Add Geoserver Layers
-      var gsStates = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
-        layers: 'BKT:us_states',
+      var gsStates = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/birds/wms", {
+        layers: 'birds:us_states',
         format: 'image/png',
         transparent: true,
         version: '1.1.0',
@@ -232,6 +232,14 @@
         maxZoom: 20
       });
 
+      var gsHatcheries = L.tileLayer.wms("http://felek.cns.umass.edu:8080/geoserver/BKT/wms", {
+        layers: 'BKT:hatchery_locations',
+        format: 'image/png',
+        tiled: true,
+        transparent: true,
+        version: '1.1.0',
+        maxZoom: 20
+      });
 
 
       //******Add map controls
@@ -598,12 +606,21 @@
 
         d3.selectAll("." + topo.pieClass)
           .append("g")
-          .attr("transform", function(d) { return "translate(-" + (25 + ((d.properties.Population.length - 9)*2)) + ",30)"; })
+          .attr("transform", function(d) {var tmpWidth = getTextWidth(d.properties.Population, "12pt arial") * 0.404; return "translate(-" + tmpWidth + ",30)"; })
           .append("text")
           .text(function(d) { return d.properties.Population; });
       }
 
 
+      //******Get the width of the hatchery name in pixels
+      function getTextWidth(text, font) {
+        // re-use canvas object for better performance
+        var canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+        var context = canvas.getContext("2d");
+        context.font = font;
+        var metrics = context.measureText(text);
+        return metrics.width;
+      }
 
       //******Remove topo layer from map
       function removeTopo(topo, tmpBool) {
@@ -701,19 +718,22 @@
     function makeLayers() {
       //******Make layer controller
       var baseLayers = {"Google Terrain": googleTerrain, "Google Hybrid": googleHybrid, "Google Satellite": googleSatellite, "Google Street": googleStreet, "Bing Hybrid": bingHybrid, "Bing Satellite": bingSatellite, "Bing Street": bingStreet, "USGS Topo": usgsTopo, "State Outlines": states, "None": blank};
-      var overlays = {"States": gsStates, "Continental Divide": gsContDiv, "HUC 2 Watersheds": gsHuc2, "HUC 4 Watersheds": gsHuc4, "HUC 6 Watersheds": gsHuc6, "HUC 8 Watersheds": gsHuc8, "HUC 10 Watersheds": gsHuc10, "HUC 12 Watersheds": gsHuc12, "EBTJV Patches": gsBktPatches, "Streams": gsNHDStreams, "Waterbodies": gsNHDWaterbodies};  
+      var overlays = {"States": gsStates, "Continental Divide": gsContDiv, "HUC 2 Watersheds": gsHuc2, "HUC 4 Watersheds": gsHuc4, "HUC 6 Watersheds": gsHuc6, "HUC 8 Watersheds": gsHuc8, "HUC 10 Watersheds": gsHuc10, "HUC 12 Watersheds": gsHuc12, "EBTJV Patches": gsBktPatches, "Streams": gsNHDStreams, "Waterbodies": gsNHDWaterbodies, "Hatchery Locations": gsHatcheries};  
+
       var overlaysData = {"Structure": {}, "DAPC": {}, "Genetics": {}};
-      overlaysData.Structure = {"K=2": topos.struct.k2, "K=3": topos.struct.k3, "K=4": topos.struct.k4, "K=5": topos.struct.k5, "K=6": topos.struct.k6, "K=7": topos.struct.k7, "K=10": topos.struct.k10, "K=15": topos.struct.k15};
+      overlaysData.Structure = {"K=2": topos.struct.k2, "K=3": topos.struct.k3, "K=4": topos.struct.k4, "K=5": topos.struct.k5, "K=6": topos.struct.k6, "K=7": topos.struct.k7, "K=10": topos.struct.k10, "K=15": topos.struct.k15, "K=20": topos.struct.k20, "K=25": topos.struct.k25};
       overlaysData.DAPC = {"K=2": topos.dapc.k2, "K=3": topos.dapc.k3, "K=4": topos.dapc.k4, "K=5": topos.dapc.k5, "K=6": topos.dapc.k6, "K=7": topos.dapc.k7, "K=10": topos.dapc.k10, "K=15": topos.dapc.k15, "K=20": topos.dapc.k20, "K=25": topos.dapc.k25}; 
-      overlaysData.Genetics = {"N": topos.genMet.N, "NA": topos.genMet.Na, "Ho": topos.genMet.Ho, "He": topos.genMet.uHe, "AR": topos.genMet.AR, "Ne": topos.genMet.Ne, "Mean Fst": topos.genMet.Mean_Fst, "He Residual": topos.genMet.He_res, "AR Residual": topos.genMet.AR_res, "Ne Residual": topos.genMet.Ne_res};
+      overlaysData.Genetics = {"N": topos.genMet.N, "NA": topos.genMet.Na, "AR": topos.genMet.AR, "Ho": topos.genMet.Ho, "He": topos.genMet.uHe, "Ne": topos.genMet.Ne, "Mean Fst": topos.genMet.Mean_Fst, "He Residual": topos.genMet.He_res, "AR Residual": topos.genMet.AR_res, "Ne Residual": topos.genMet.Ne_res};
+
       var overlaysHatch = {"Structure": {}, "DAPC": {}, "Genetics": {}};
-      overlaysHatch.Structure = {"Structure Hatchery (K=2)": topos.hatchS.k2, "Structure Hatchery (K=3)": topos.hatchS.k3, "Structure Hatchery (K=4)": topos.hatchS.k4, "Structure Hatchery (K=5)": topos.hatchS.k5, "Structure Hatchery (K=6)": topos.hatchS.k6, "Structure Hatchery (K=7)": topos.hatchS.k7, "Structure Hatchery (K=10)": topos.hatchS.k10, "Structure Hatchery (K=15)": topos.hatchS.k15};
+      overlaysHatch.Structure = {"Structure Hatchery (K=2)": topos.hatchS.k2, "Structure Hatchery (K=3)": topos.hatchS.k3, "Structure Hatchery (K=4)": topos.hatchS.k4, "Structure Hatchery (K=5)": topos.hatchS.k5, "Structure Hatchery (K=6)": topos.hatchS.k6, "Structure Hatchery (K=7)": topos.hatchS.k7, "Structure Hatchery (K=10)": topos.hatchS.k10, "Structure Hatchery (K=15)": topos.hatchS.k15, "Structure Hatchery (K=20)": topos.hatchS.k20, "Structure Hatchery (K=25)": topos.hatchS.k25};
       overlaysHatch.DAPC = {"DAPC Hatchery (K=2)": topos.hatchD.k2, "DAPC Hatchery (K=3)": topos.hatchD.k3, "DAPC Hatchery (K=4)": topos.hatchD.k4, "DAPC Hatchery (K=5)": topos.hatchD.k5, "DAPC Hatchery (K=6)": topos.hatchD.k6, "DAPC Hatchery (K=7)": topos.hatchD.k7, "DAPC Hatchery (K=10)": topos.hatchD.k10, "DAPC Hatchery (K=15)": topos.hatchD.k15, "DAPC Hatchery (K=20)": topos.hatchD.k20, "DAPC Hatchery (K=25)": topos.hatchD.k25};
-      overlaysHatch.Genetics = {"N": topos.genMetHatch.N, "NA": topos.genMetHatch.Na, "Ho": topos.genMetHatch.Ho, "He": topos.genMetHatch.uHe, "AR": topos.genMetHatch.AR, "Ne": topos.genMetHatch.Ne, "Mean Fst": topos.genMetHatch.Mean_Fst, "He Residual": topos.genMetHatch.He_res, "AR Residual": topos.genMetHatch.AR_res, "Ne Residual": topos.genMetHatch.Ne_res};
+      overlaysHatch.Genetics = {"N": topos.genMetHatch.N, "NA": topos.genMetHatch.Na, "AR": topos.genMetHatch.AR, "Ho": topos.genMetHatch.Ho, "He": topos.genMetHatch.uHe, "Ne": topos.genMetHatch.Ne, "Mean Fst": topos.genMetHatch.Mean_Fst, "He Residual": topos.genMetHatch.He_res, "AR Residual": topos.genMetHatch.AR_res, "Ne Residual": topos.genMetHatch.Ne_res};
+
       var overlaysPlots = {"Structure": {}, "DAPC": {}, "Genetics": {}};
-      overlaysPlots.Structure = {"Structure (K=2)": "noplot", "Structure (K=3)": "noplot", "Structure (K=4)": "noplot", "Structure (K=5)": "noplot", "Structure (K=6)": "noplot", "Structure (K=7)": "noplot", "Structure (K=10)": "noplot", "Structure (K=15)": "noplot"};
-      overlaysPlots.DAPC = {"DAPC (K=2)": "dapc_K2", "DAPC (K=3)": "dapc_K3", "DAPC (K=4)": "dapc_K4", "DAPC (K=5)": "dapc_K5", "DAPC (K=6)": "dapc_K6", "DAPC (K=7)": "dapc_K7", "DAPC (K=10)": "dapc_K10", "DAPC (K=15)": "dapc_K15", "DAPC (K=20)": "dapc_K20", "DAPC (K=25)": "dapc_K25"};
-      overlaysPlots.Genetics = {"N": "noplot", "Na": "noplot", "Ho": "noplot", "He": "noplot", "AR": "noplot", "Ne": "noplot", "Mean_Fst": "noplot", "He_res": "He_meanFst", "AR_res": "AR_meanFst", "Ne_res": "Ne_meanFst"};
+      overlaysPlots.Structure = {"K=2": "noplot", "K=3": "noplot", "K=4": "noplot", "K=5": "noplot", "K=6": "noplot", "K=7": "noplot", "K=10": "noplot", "K=15": "noplot", "K=20": "noplot", "K=25": "noplot"};
+      overlaysPlots.DAPC = {"K=2": "dapc_K2", "K=3": "dapc_K3", "K=4": "dapc_K4", "K=5": "dapc_K5", "K=6": "dapc_K6", "K=7": "dapc_K7", "K=10": "dapc_K10", "K=15": "dapc_K15", "K=20": "dapc_K20", "K=25": "dapc_K25"};
+      overlaysPlots.Genetics = {"N": "N_dapc3_g", "NA": "Na_dapc3_g", "AR": "AR_dapc3_g", "Ho": "Ho_dapc3_g", "He": "uHe_dapc3_g", "Ne": "Ne_dapc3_g", "Mean Fst": "Mean_Fst_dapc3_g", "He Residual": "He_meanFst", "AR Residual": "AR_meanFst", "Ne Residual": "Ne_meanFst"};
 
       layerNames = {};
       layerNames.baseLayers = {};
@@ -744,7 +764,9 @@
         layerNames.overlaysPlots[key].values = d3.values(overlaysPlots[key]);
       });
 
-      layerNames.overlaysData.Genetics.titles = {"N": "Sample Size", "NA": "Number of Alleles", "Ho": "Observed Heterozygosity", "He": "Expected Heterozygosity", "AR": "Allelic Richness", "Ne": "Effective Population Size"};
+      layerNames.overlaysData.Structure.titles = {"K=2": "Structure (K=2)", "K=3": "Structure (K=3)", "K=4": "Structure (K=4)", "K=5": "Structure (K=5)", "K=6": "Structure (K=6)", "K=7": "Structure (K=7)", "K=10": "Structure (K=10)", "K=15": "Structure (K=15)", "K=20": "Structure (K=20)", "K=25": "Structure (K=25)"};
+      layerNames.overlaysData.DAPC.titles = {"K=2": "DAPC (K=2)", "K=3": "DAPC (K=3)", "K=4": "DAPC (K=4)", "K=5": "DAPC (K=5)", "K=6": "DAPC (K=6)", "K=7": "DAPC (K=7)", "K=10": "DAPC (K=10)", "K=15": "DAPC (K=15)", "K=20": "DAPC (K=20)", "K=25": "DAPC (K=25)"};
+      layerNames.overlaysData.Genetics.titles = {"N": "Sample Size", "NA": "Number of Alleles", "AR": "Allelic Richness", "Ho": "Observed Heterozygosity", "He": "Expected Heterozygosity", "Ne": "Effective Population Size", "Mean Fst": "Mean Fst (Genetic Differentiation)", "He Residual": "Residual Value of Expected Heterozygosity", "AR Residual": "Residual Value of Allelic Richness", "Ne Residual": "Residual Value of Effective Population Size"};
 
       //******Make header control div
       d3.select("body")
@@ -914,14 +936,47 @@
           addTopoLegend(layerNames.overlaysHatch[key].values[i]);
           d3.select("#plotsDiv")
             .append("img")
-            .attr("id", "plot_" + i)
-            .attr("src", "images/" + layerNames.overlaysPlots[key].values[i] + ".jpg");
+            .attr("id", "plot_" + key + "_" + i)
+            .attr("value", layerNames.overlaysData[key].keys[i])
+            .attr("data-key", key)
+            .attr("src", "images/" + layerNames.overlaysPlots[key].values[i] + ".jpg")
+            .property("title", "Click to open larger version")
+            .on("click", function() { window.open(this.src, 'Image'); });
+
+          d3.select("#plotSelect").selectAll("option")[0].some(function(d,j) {
+            if(d3.select(d).attr("value") ==  layerNames.overlaysData[key].keys[i] && d3.select(d).attr("data-key") == key) {
+              document.getElementById('plotSelect').selectedIndex = j;
+              d3.select("#plotSelect").property("title", d3.select(d).property("title"));
+              return true;
+            }
+            return false;
+          });
         } 
         else {
           d3.select(tmpDiv).select("span").style("visibility", "hidden");
           removeTopo(layerNames.overlaysData[key].values[i], true);
           removeTopoLegend(layerNames.overlaysHatch[key].values[i], true);
-          d3.select("#plot_" + i).remove();
+          d3.selectAll("#plot_" + key + "_" + i).remove();
+
+          var tmpImg = d3.select("#plotsDiv").selectAll("img");
+          if(tmpImg[0][tmpImg[0].length - 1] != null) {
+            var tmpImgLast = tmpImg[0][tmpImg[0].length - 1];
+            var tmpKey = d3.select(tmpImgLast).attr("data-key");
+            var tmpVal = d3.select(tmpImgLast).attr("value");
+
+            d3.select("#plotSelect").selectAll("option")[0].some(function(d,j) {
+              if(d3.select(d).attr("value") ==  tmpVal && d3.select(d).attr("data-key") == tmpKey) {
+                document.getElementById('plotSelect').selectedIndex = j;
+                d3.select("#plotSelect").property("title", d3.select(d).property("title"));
+                return true;
+              }
+              return false;
+            });
+          }
+          else {
+            document.getElementById("plotSelect").selectedIndex = "0";
+            d3.select("#plotSelect").property("title", "Select metric to view its associated plot");
+          }
         }
       }
 
@@ -1005,7 +1060,53 @@
           }
         }
       }
-}
+
+
+      //******Add in manual plot selection options
+      var plotKeys = d3.keys(overlaysPlots.Structure).concat(d3.keys(overlaysPlots.DAPC)).concat(d3.keys(overlaysPlots.Genetics));
+      var plotKeysCat = [""];
+      var plotKeysI = [0];
+      var arrayKey = ["Structure", "DAPC", "Genetics"];
+      
+      arrayKey.forEach(function(key) {
+        var i = 0;
+        for (tmpKey in d3.keys(overlaysPlots[key])) {
+          plotKeysCat.push(key);
+          plotKeysI.push(i);
+          i += 1;
+        }
+      });
+
+      plotKeys.splice(0,0, "Select Plot");
+
+      d3.select("#plotSelect").selectAll("option")
+          .data(plotKeys)
+          .enter()
+            .append("option")
+            .attr("value", function(d, i) { return plotKeys[i]; })
+            .attr("data-key", function(d, i) { return plotKeysCat[i]; })
+            .attr("data-i", function(d, i) { return plotKeysI[i]; })
+            .property("disabled", function(d, i) { if(i==0) {return "disabled";} })
+            .property("title", function(d, i) { if(plotKeysCat[i] == "Structure") { return layerNames.overlaysData.Structure.titles[d]; } else if(plotKeysCat[i] == "DAPC") { return layerNames.overlaysData.DAPC.titles[d]; } else { return layerNames.overlaysData.Genetics.titles[d]; } }) 
+            .text(function(d, i) { if(plotKeysCat[i] == "Genetics") { return plotKeys[i]; } else if(plotKeysCat[i] == "Structure") { return layerNames.overlaysData.Structure.titles[d]; } else if(plotKeysCat[i] == "DAPC") { return layerNames.overlaysData.DAPC.titles[d]; } else { return d; } });
+
+      d3.select("#plotSelect")
+        .on("change", function() { addPlotManual(this, d3.select(this.options[this.selectedIndex]).attr("data-key"), d3.select(this.options[this.selectedIndex]).attr("data-i"), d3.select(this.options[this.selectedIndex]).attr("value")); })
+
+
+      function addPlotManual(tmpSel,key, i, val) {
+        d3.select("#plotsDiv")
+          .append("img")
+          .attr("id", "plot_" + key + "_" + i)
+          .attr("value", val)
+          .attr("data-key", key)
+          .attr("src", "images/" + layerNames.overlaysPlots[key].values[i] + ".jpg")
+          .property("title", "Click to open larger version")
+          .on("click", function() { window.open(this.src, 'Image'); });
+
+        d3.select("#plotSelect").property("title", d3.select(tmpSel.options[tmpSel.selectedIndex]).property("title"));
+      }
+    }
 
 
       //******Function to close window when image icon is clicked
@@ -1405,7 +1506,7 @@
         .attr("class", "legTitle")
         .attr("id", "filterTitle")
         .append("span")
-        .html('<span class="glyphicon glyphicon-info-sign help-tooltip" data-toggle="tooltip" data-placement="auto right" data-container="body"  data-html="true" title="<p><u><b><center>Plots</center></b></u></p><p>Shows a plot of each population\'s location on the first and second PCA axes for the associated data layer displayed on the map.</p>"></span>');
+        .html('<span class="glyphicon glyphicon-info-sign help-tooltip" data-toggle="tooltip" data-placement="auto right" data-container="body"  data-html="true" title="<p><u><b><center>Plots</center></b></u></p><p align=\'left\'><u>DAPC</u>: Shows a plot of each sample\'s location on the first and second PCA axes with samples classified as belonging to one of the K populations.<br><br><u>Genetic Metrics</u>: Shows the frequency distribution (N, NA, AR, He, Ho, Ne) or scatterplot (AR Residual, He Residual, Ne Residual) of the genetic metric where the samples are classified by the DAPC results for K=3.<br><br>NOTE: Samples assigned to K2 that were located south of Pennsylvania were assumed to have been influenced by stocked hatchery fish and are denoted with black hashing (frequency distributions) or black borders (scatterplots) and labelled as \'K2 (Introgression)\'.</p>"></span>');
 
       d3.select("#filterTitle")
         .append("span")
@@ -1417,6 +1518,16 @@
       d3.select("#chartsDiv")
         .append("div")
         .attr("id", "plotsDiv");
+
+      //******Add selectbox to manually change plot
+      d3.select("#chartsDiv")
+        .append("div")
+        .attr("id", "plotManualSelectDiv")
+          .append("select")
+          .attr("class", "filterAttrList")
+          .attr("id", "plotSelect")
+          .property("title", "Select metric to view its associated plot")
+          .on("mousedown", function() { d3.select(this).select("option").style("display", "none"); });
 
 /*
         .attr("class", "horBorder")
@@ -1975,6 +2086,8 @@
         .defer(d3.tsv, 'files/struct_k7.tsv')
         .defer(d3.tsv, 'files/struct_k10.tsv')
         .defer(d3.tsv, 'files/struct_k15.tsv')
+        .defer(d3.tsv, 'files/struct_k20.tsv')
+        .defer(d3.tsv, 'files/struct_k25.tsv')
         .defer(d3.tsv, 'files/struct_k2_hatch.tsv')
         .defer(d3.tsv, 'files/struct_k3_hatch.tsv')
         .defer(d3.tsv, 'files/struct_k4_hatch.tsv')
@@ -1983,6 +2096,8 @@
         .defer(d3.tsv, 'files/struct_k7_hatch.tsv')
         .defer(d3.tsv, 'files/struct_k10_hatch.tsv')
         .defer(d3.tsv, 'files/struct_k15_hatch.tsv')
+        .defer(d3.tsv, 'files/struct_k20_hatch.tsv')
+        .defer(d3.tsv, 'files/struct_k25_hatch.tsv')
         .defer(d3.tsv, 'files/dapc_k2.tsv')
         .defer(d3.tsv, 'files/dapc_k3.tsv')
         .defer(d3.tsv, 'files/dapc_k4.tsv')
@@ -2014,7 +2129,7 @@
 
 
       //******Bind topoJSON data
-      function displayIt(error, dapc,struct,hatch,sK2,sK3,sK4,sK5,sK6,sK7,sK10,sK15,shK2,shK3,shK4,shK5,shK6,shK7,shK10,shK15,dK2,dK3,dK4,dK5,dK6,dK7,dK10,dK15,dK20,dK25,dhK2,dhK3,dhK4,dhK5,dhK6,dhK7,dhK10,dhK15,dhK20,dhK25,genMet,genMetH) {
+      function displayIt(error, dapc,struct,hatch,sK2,sK3,sK4,sK5,sK6,sK7,sK10,sK15,sK20,sK25,shK2,shK3,shK4,shK5,shK6,shK7,shK10,shK15,shK20,shK25,dK2,dK3,dK4,dK5,dK6,dK7,dK10,dK15,dK20,dK25,dhK2,dhK3,dhK4,dhK5,dhK6,dhK7,dhK10,dhK15,dhK20,dhK25,genMet,genMetH) {
         topos.struct = {};
         topos.struct.k2 = topojson.feature(struct, struct.objects.struct);
         topos.struct.k3 = topojson.feature(struct, struct.objects.struct);
@@ -2024,6 +2139,8 @@
         topos.struct.k7 = topojson.feature(struct, struct.objects.struct);
         topos.struct.k10 = topojson.feature(struct, struct.objects.struct);
         topos.struct.k15 = topojson.feature(struct, struct.objects.struct);
+        topos.struct.k20 = topojson.feature(struct, struct.objects.struct);
+        topos.struct.k25 = topojson.feature(struct, struct.objects.struct);
 
         topos.dapc = {};
         topos.dapc.k2 = topojson.feature(dapc, dapc.objects.dapc);
@@ -2046,6 +2163,8 @@
         topos.hatchS.k7 = topojson.feature(hatch, hatch.objects.hatch);
         topos.hatchS.k10 = topojson.feature(hatch, hatch.objects.hatch);
         topos.hatchS.k15 = topojson.feature(hatch, hatch.objects.hatch);
+        topos.hatchS.k20 = topojson.feature(hatch, hatch.objects.hatch);
+        topos.hatchS.k25 = topojson.feature(hatch, hatch.objects.hatch);
 
         topos.hatchD = {};
         topos.hatchD.k2 = topojson.feature(hatch, hatch.objects.hatch);
@@ -2095,7 +2214,8 @@
         color.struct.k15 = ['#5ce600','#39e695','#00b3a7','#ff4040','#b23000','#bf9900','#ccc999','#becc00','#448000','#f200a2','#cc99bb','#40a6ff','#0047b3','#6600ff','#e200f2','#bfbfbf'];
         color.struct.k20 = ['#5ce600','#39e695','#00b3a7','#bffffb','#ff4040','#b23000','#bf6600','#bf9900','#ccc999','#becc00','#448000','#f200a2','#cc99bb','#b22d50','#40a6ff','#0047b3','#a3aad9','#6600ff','#ba79f2','#e200f2','#bfbfbf'];
         color.struct.k25 = ['#5ce600','#39e695','#00b3a7','#bffffb','#1a6166','#ff4040','#b23000','#ffa280','#bf6600','#bf9900','#ccc999','#becc00','#3d4d00','#448000','#f200a2','#800055','#cc99bb','#b22d50','#40a6ff','#0047b3','#00138c','#a3aad9','#6600ff','#ba79f2','#e200f2','#bfbfbf'];
-
+/*
+        //Funky color palette from R
         color.dapc = {};
         color.dapc.k2 = ["#A6CEE3","#B15928"];
         color.dapc.k3 = ["#A6CEE3","#F06C45","#B15928"];
@@ -2107,6 +2227,124 @@
         color.dapc.k15 = ["#A6CEE3","#3B8ABE","#72B29C","#84C868","#4F9F3B","#EC9A91","#E93E3F","#F06C45","#FDAC4F","#FB820F","#D1AAB7","#8C66AF","#A99099","#EEDB80","#B15928","#bfbfbf"];
         color.dapc.k20 = ["#A6CEE3","#579CC7","#EB494A","#8BC395","#89CB6C","#40A635","#919D5F","#F99392","#3688AD","#E83C2D","#F79C5D","#FDA746","#FE8205","#E39970","#BFA5CF","#8861AC","#917099","#E7E099","#DEB969","#B15928","#bfbfbf"];
         color.dapc.k25 = ["#A6CEE3","#68A6CD","#2A7FB7","#569EA4","#99CD91","#8CCC6E","#52AF43","#5C9E42","#B89B74","#F88A89","#ED4F50","#E4201F","#F06C45","#FBB86B","#FDA440","#FE870D","#ED8F47","#D5A7A9","#B294C7","#865FAB","#825D99","#C7B699","#F8F18F","#D4A55B","#B15928","#bfbfbf"];
+
+        //Viridis color palette from matplotlib
+        color.dapc = {};
+        color.dapc.k2 = ['#440154', '#fde725']
+        color.dapc.k3 = ['#440154', '#21918c', '#fde725']
+        color.dapc.k4 = ['#440154', '#31688e', '#35b779', '#fde725']
+        color.dapc.k5 = ['#440154', '#3b528b', '#21918c', '#5ec962', '#fde725']
+        color.dapc.k6 = ['#440154', '#414487', '#2a788e', '#22a884', '#7ad151', '#fde725']
+        color.dapc.k7 = ['#440154', '#443983', '#31688e', '#21918c', '#35b779', '#90d743', '#fde725']
+        color.dapc.k10 = ['#440154', '#482878', '#3e4989', '#31688e', '#26828e', '#1f9e89', '#35b779', '#6ece58', '#b5de2b', '#fde725', '#bfbfbf']
+        color.dapc.k15 = ['#440154', '#481b6d', '#46327e', '#3f4788', '#365c8d', '#2e6e8e', '#277f8e', '#21918c', '#1fa187', '#2db27d', '#4ac16d', '#73d056', '#a0da39', '#d0e11c', '#fde725', '#bfbfbf']
+        color.dapc.k20 = ['#440154', '#481467', '#482576', '#453781', '#404688', '#39558c', '#33638d', '#2d718e', '#287d8e', '#238a8d', '#1f968b', '#20a386', '#29af7f', '#3dbc74', '#56c667', '#75d054', '#95d840', '#bade28', '#dde318', '#fde725', '#bfbfbf']
+        color.dapc.k25 = ['#440154', '#471063', '#481f70', '#472d7b', '#443983', '#404688', '#3b528b', '#365d8d', '#31688e', '#2c728e', '#287c8e', '#24868e', '#21918c', '#1f9a8a', '#20a486', '#28ae80', '#35b779', '#48c16e', '#5ec962', '#75d054', '#90d743', '#addc30', '#c8e020', '#e5e419', '#fde725', '#bfbfbf']
+
+        //Viridis odd swap color palette from matplotlib
+        color.dapc = {};
+        color.dapc.k2 = ['#440154', '#fde725']
+        color.dapc.k3 = ['#440154', '#21918c', '#fde725']
+        color.dapc.k4 = ['#440154', '#35b779', '#31688e', '#fde725']
+        color.dapc.k5 = ['#440154', '#5ec962', '#21918c', '#3b528b', '#fde725']
+        color.dapc.k6 = ['#440154', '#7ad151', '#2a788e', '#22a884', '#414487', '#fde725']
+        color.dapc.k7 = ['#440154', '#90d743', '#31688e', '#21918c', '#35b779', '#443983', '#fde725']
+        color.dapc.k10 = ['#440154', '#b5de2b', '#3e4989', '#35b779', '#26828e', '#1f9e89', '#31688e', '#6ece58', '#482878', '#fde725', '#bfbfbf']
+        color.dapc.k15 = ['#440154', '#d0e11c', '#46327e', '#73d056', '#365c8d', '#2db27d', '#277f8e', '#21918c', '#1fa187', '#2e6e8e', '#4ac16d', '#3f4788', '#a0da39', '#481b6d', '#fde725', '#bfbfbf']
+        color.dapc.k20 = ['#440154', '#dde318', '#482576', '#95d840', '#404688', '#56c667', '#33638d', '#29af7f', '#287d8e', '#1f968b', '#238a8d', '#20a386', '#2d718e', '#3dbc74', '#39558c', '#75d054', '#453781', '#bade28', '#481467', '#fde725', '#bfbfbf']
+        color.dapc.k25 = ['#440154', '#e5e419', '#481f70', '#addc30', '#443983', '#75d054', '#3b528b', '#48c16e', '#31688e', '#28ae80', '#287c8e', '#1f9a8a', '#21918c', '#24868e', '#20a486', '#2c728e', '#35b779', '#365d8d', '#5ec962', '#404688', '#90d743', '#472d7b', '#c8e020', '#471063', '#fde725', '#bfbfbf']
+
+        //Jet color palette from matplotlib
+        color.dapc = {};
+        color.dapc.k2 = ['#000080', '#800000']
+        color.dapc.k3 = ['#000080', '#7dff7a', '#800000']
+        color.dapc.k4 = ['#000080', '#00d4ff', '#ffe600', '#800000']
+        color.dapc.k5 = ['#000080', '#0080ff', '#7dff7a', '#ff9400', '#800000']
+        color.dapc.k6 = ['#000080', '#004cff', '#29ffce', '#ceff29', '#ff6800', '#800000']
+        color.dapc.k7 = ['#000080', '#0028ff', '#00d4ff', '#7dff7a', '#ffe600', '#ff4700', '#800000']
+        color.dapc.k10 = ['#000080', '#0000ff', '#0060ff', '#00d4ff', '#4dffaa', '#aaff4d', '#ffe600', '#ff7a00', '#ff1300', '#800000', '#bfbfbf']
+        color.dapc.k15 = ['#000080', '#0000d1', '#0010ff', '#0058ff', '#00a4ff', '#06ecf1', '#40ffb7', '#7dff7a', '#b7ff40', '#f1fc06', '#ffb900', '#ff7300', '#ff3000', '#d10000', '#800000', '#bfbfbf']
+        color.dapc.k20 = ['#000080', '#0000bb', '#0000f6', '#0020ff', '#0054ff', '#008cff', '#00c0ff', '#0ff8e7', '#39ffbe', '#66ff90', '#90ff66', '#beff39', '#e7ff0f', '#ffd300', '#ffa300', '#ff6f00', '#ff3f00', '#f60b00', '#bb0000', '#800000', '#bfbfbf']
+        color.dapc.k25 = ['#000080', '#0000ad', '#0000df', '#0000ff', '#0028ff', '#0054ff', '#0080ff', '#00a8ff', '#00d4ff', '#16ffe1', '#36ffc1', '#5aff9d', '#7dff7a', '#9dff5a', '#c1ff36', '#e4ff13', '#ffe600', '#ffbd00', '#ff9400', '#ff6f00', '#ff4700', '#ff1e00', '#df0000', '#ad0000', '#800000', '#bfbfbf']
+
+        //Gist_rainbow color palette from matplotlib
+        color.dapc = {};
+        color.dapc.k2 = ['#ff0029', '#ff00bf']
+        color.dapc.k3 = ['#ff0029', '#00ff8c', '#ff00bf']
+        color.dapc.k4 = ['#ff0029', '#5cff00', '#008fff', '#ff00bf']
+        color.dapc.k5 = ['#ff0029', '#cdff00', '#00ff8c', '#0018ff', '#ff00bf']
+        color.dapc.k6 = ['#ff0029', '#ffea00', '#00ff00', '#00ecff', '#2a00ff', '#ff00bf']
+        color.dapc.k7 = ['#ff0029', '#ffba00', '#5cff00', '#00ff8c', '#008fff', '#5a00ff', '#ff00bf']
+        color.dapc.k10 = ['#ff0029', '#ff6e00', '#f9ff00', '#5cff00', '#00ff3b', '#00ffd7', '#008fff', '#0e00ff', '#a700ff', '#ff00bf', '#bfbfbf']
+        color.dapc.k15 = ['#ff0029', '#ff3800', '#ff9900', '#fffb00', '#9dff00', '#3bff00', '#00ff26', '#00ff8c', '#00ffed', '#00b0ff', '#004eff', '#1900ff', '#7b00ff', '#dd00ff', '#ff00bf', '#bfbfbf']
+        color.dapc.k20 = ['#ff0029', '#ff1d00', '#ff6300', '#ffaf00', '#fff500', '#bdff00', '#77ff00', '#2bff00', '#00ff1b', '#00ff66', '#00ffac', '#00fff7', '#00c0ff', '#0074ff', '#002dff', '#1f00ff', '#6500ff', '#b100ff', '#f800ff', '#ff00bf', '#bfbfbf']
+        color.dapc.k25 = ['#ff0029', '#ff0d00', '#ff4800', '#ff8400', '#ffba00', '#fff500', '#cdff00', '#97ff00', '#5cff00', '#20ff00', '#00ff16', '#00ff51', '#00ff8c', '#00ffc2', '#00fffd', '#00c6ff', '#008fff', '#0053ff', '#0018ff', '#1f00ff', '#5a00ff', '#9600ff', '#cd00ff', '#ff00f6', '#ff00bf', '#bfbfbf']
+
+        //Gist_rainbow odd swap color palette from matplotlib
+        color.dapc = {};
+        color.dapc.k2 = ['#ff0029', '#ff00bf']
+        color.dapc.k3 = ['#ff0029', '#00ff8c', '#ff00bf']
+        color.dapc.k4 = ['#ff0029', '#008fff', '#5cff00', '#ff00bf']
+        color.dapc.k5 = ['#ff0029', '#0018ff', '#00ff8c', '#cdff00', '#ff00bf']
+        color.dapc.k6 = ['#ff0029', '#2a00ff', '#00ff00', '#00ecff', '#ffea00', '#ff00bf']
+        color.dapc.k7 = ['#ff0029', '#5a00ff', '#5cff00', '#00ff8c', '#008fff', '#ffba00', '#ff00bf']
+        color.dapc.k10 = ['#ff0029', '#a700ff', '#f9ff00', '#008fff', '#00ff3b', '#00ffd7', '#5cff00', '#0e00ff', '#ff6e00', '#ff00bf', '#bfbfbf']
+        color.dapc.k15 = ['#ff0029', '#dd00ff', '#ff9900', '#1900ff', '#9dff00', '#00b0ff', '#00ff26', '#00ff8c', '#00ffed', '#3bff00', '#004eff', '#fffb00', '#7b00ff', '#ff3800', '#ff00bf', '#bfbfbf']
+        color.dapc.k20 = ['#ff0029', '#f800ff', '#ff6300', '#6500ff', '#fff500', '#002dff', '#77ff00', '#00c0ff', '#00ff1b', '#00ffac', '#00ff66', '#00fff7', '#2bff00', '#0074ff', '#bdff00', '#1f00ff', '#ffaf00', '#b100ff', '#ff1d00', '#ff00bf', '#bfbfbf']
+        color.dapc.k25 = ['#ff0029', '#ff00f6', '#ff4800', '#9600ff', '#ffba00', '#1f00ff', '#cdff00', '#0053ff', '#5cff00', '#00c6ff', '#00ff16', '#00ffc2', '#00ff8c', '#00ff51', '#00fffd', '#20ff00', '#008fff', '#97ff00', '#0018ff', '#fff500', '#5a00ff', '#ff8400', '#cd00ff', '#ff0d00', '#ff00bf', '#bfbfbf']
+
+        //Inferno color palette from matplotlib
+        color.dapc = {};
+        color.dapc.k2 = ['#000004', '#fcffa4']
+        color.dapc.k3 = ['#000004', '#bc3754', '#fcffa4']
+        color.dapc.k4 = ['#000004', '#781c6d', '#ed6925', '#fcffa4']
+        color.dapc.k5 = ['#000004', '#57106e', '#bc3754', '#f98e09', '#fcffa4']
+        color.dapc.k6 = ['#000004', '#420a68', '#932667', '#dd513a', '#fca50a', '#fcffa4']
+        color.dapc.k7 = ['#000004', '#320a5e', '#781c6d', '#bc3754', '#ed6925', '#fbb61a', '#fcffa4']
+        color.dapc.k10 = ['#000004', '#1b0c41', '#4a0c6b', '#781c6d', '#a52c60', '#cf4446', '#ed6925', '#fb9b06', '#f7d13d', '#fcffa4', '#bfbfbf']
+        color.dapc.k15 = ['#000004', '#0d0829', '#280b53', '#470b6a', '#65156e', '#82206c', '#9f2a63', '#bc3754', '#d44842', '#e8602d', '#f57d15', '#fc9f07', '#fac228', '#f3e55d', '#fcffa4', '#bfbfbf']
+        color.dapc.k20 = ['#000004', '#08051d', '#180c3c', '#2f0a5b', '#450a69', '#5c126e', '#71196e', '#87216b', '#9b2964', '#b1325a', '#c43c4e', '#d74b3f', '#e55c30', '#f1711f', '#f8870e', '#fca108', '#fbba1f', '#f6d543', '#f1ed71', '#fcffa4', '#bfbfbf']
+        color.dapc.k25 = ['#000004', '#050417', '#110a30', '#210c4a', '#320a5e', '#450a69', '#57106e', '#67166e', '#781c6d', '#8a226a', '#9a2865', '#ab2f5e', '#bc3754', '#ca404a', '#d84c3e', '#e45a31', '#ed6925', '#f57b17', '#f98e09', '#fca108', '#fbb61a', '#f9cb35', '#f4df53', '#f2f27d', '#fcffa4', '#bfbfbf']
+
+        //Plasma color palette from matplotlib
+        color.dapc = {};
+        color.dapc.k2 = ['#0d0887', '#f0f921']
+        color.dapc.k3 = ['#0d0887', '#cc4778', '#f0f921']
+        color.dapc.k4 = ['#0d0887', '#9c179e', '#ed7953', '#f0f921']
+        color.dapc.k5 = ['#0d0887', '#7e03a8', '#cc4778', '#f89540', '#f0f921']
+        color.dapc.k6 = ['#0d0887', '#6a00a8', '#b12a90', '#e16462', '#fca636', '#f0f921']
+        color.dapc.k7 = ['#0d0887', '#5c01a6', '#9c179e', '#cc4778', '#ed7953', '#fdb42f', '#f0f921']
+        color.dapc.k10 = ['#0d0887', '#46039f', '#7201a8', '#9c179e', '#bd3786', '#d8576b', '#ed7953', '#fb9f3a', '#fdca26', '#f0f921', '#bfbfbf']
+        color.dapc.k15 = ['#0d0887', '#350498', '#5302a3', '#6f00a8', '#8b0aa5', '#a31e9a', '#b83289', '#cc4778', '#db5c68', '#e97158', '#f48849', '#fba238', '#febd2a', '#fada24', '#f0f921', '#bfbfbf']
+        color.dapc.k20 = ['#0d0887', '#2c0594', '#43039e', '#5901a5', '#6e00a8', '#8305a7', '#9511a1', '#a72197', '#b6308b', '#c5407e', '#d14e72', '#dd5e66', '#e76e5b', '#f07f4f', '#f79044', '#fca338', '#feb72d', '#fccd25', '#f7e225', '#f0f921', '#bfbfbf']
+        color.dapc.k25 = ['#0d0887', '#260591', '#3a049a', '#4c02a1', '#5c01a6', '#6e00a8', '#7e03a8', '#8d0ba5', '#9c179e', '#aa2395', '#b52f8c', '#c13b82', '#cc4778', '#d5536f', '#de5f65', '#e66c5c', '#ed7953', '#f3874a', '#f89540', '#fca338', '#fdb42f', '#fdc527', '#fbd524', '#f6e826', '#f0f921', '#bfbfbf']
+
+        //Plasma swap odd color palette from matplotlib
+        color.dapc = {};
+        color.dapc.k2 = ['#0d0887', '#f0f921']
+        color.dapc.k3 = ['#0d0887', '#cc4778', '#f0f921']
+        color.dapc.k4 = ['#0d0887', '#ed7953', '#9c179e', '#f0f921']
+        color.dapc.k5 = ['#0d0887', '#f89540', '#cc4778', '#7e03a8', '#f0f921']
+        color.dapc.k6 = ['#0d0887', '#fca636', '#b12a90', '#e16462', '#6a00a8', '#f0f921']
+        color.dapc.k7 = ['#0d0887', '#fdb42f', '#9c179e', '#cc4778', '#ed7953', '#5c01a6', '#f0f921']
+        color.dapc.k10 = ['#0d0887', '#fdca26', '#7201a8', '#ed7953', '#bd3786', '#d8576b', '#9c179e', '#fb9f3a', '#46039f', '#f0f921', '#bfbfbf']
+        color.dapc.k15 = ['#0d0887', '#fada24', '#5302a3', '#fba238', '#8b0aa5', '#e97158', '#b83289', '#cc4778', '#db5c68', '#a31e9a', '#f48849', '#6f00a8', '#febd2a', '#350498', '#f0f921', '#bfbfbf']
+        color.dapc.k20 = ['#0d0887', '#f7e225', '#43039e', '#feb72d', '#6e00a8', '#f79044', '#9511a1', '#e76e5b', '#b6308b', '#d14e72', '#c5407e', '#dd5e66', '#a72197', '#f07f4f', '#8305a7', '#fca338', '#5901a5', '#fccd25', '#2c0594', '#f0f921', '#bfbfbf']
+        color.dapc.k25 = ['#0d0887', '#f6e826', '#3a049a', '#fdc527', '#5c01a6', '#fca338', '#7e03a8', '#f3874a', '#9c179e', '#e66c5c', '#b52f8c', '#d5536f', '#cc4778', '#c13b82', '#de5f65', '#aa2395', '#ed7953', '#8d0ba5', '#f89540', '#6e00a8', '#fdb42f', '#4c02a1', '#fbd524', '#260591', '#f0f921', '#bfbfbf']
+*/
+        //Gist_ncar color palette from matplotlib
+        color.dapc = {};
+
+        color.dapc.k2 = ['#000080', '#f0a0f2']
+        color.dapc.k3 = ['#000080', '#adff30', '#f0a0f2']
+        color.dapc.k4 = ['#000080', '#00fe2a', '#ffc40a', '#f0a0f2']
+        color.dapc.k5 = ['#000080', '#00fdd1', '#adff30', '#ff3e00', '#f0a0f2']
+        color.dapc.k6 = ['#000080', '#00dcff', '#60ce00', '#ffe900', '#ff0512', '#f0a0f2']
+        color.dapc.k7 = ['#000080', '#00a9ff', '#00fe2a', '#adff30', '#ffc40a', '#ff009f', '#f0a0f2']
+        color.dapc.k10 = ['#000080', '#0007de', '#00f2ff', '#00fe2a', '#7af200', '#e8ff14', '#ffc40a', '#ff1d00', '#c81cff', '#f0a0f2', '#bfbfbf']
+        color.dapc.k15 = ['#000080', '#004b37', '#0055ff', '#00e9ff', '#00fa9d', '#20f400', '#72e500', '#adff30', '#fafa04', '#ffd004', '#ff7807', '#ff1300', '#ff00f8', '#b044fa', '#f0a0f2', '#bfbfbf']
+        color.dapc.k20 = ['#000080', '#00580f', '#0014bc', '#008dff', '#00e5ff', '#00fcbd', '#00fc54', '#33e800', '#6ede00', '#92ff18', '#c8ff30', '#fff500', '#ffd801', '#ffb20d', '#ff5002', '#ff1300', '#ff00c3', '#c11fff', '#ce62f4', '#f0a0f2', '#bfbfbf']
+        color.dapc.k25 = ['#000080', '#00422b', '#003669', '#001cff', '#00a9ff', '#00e5ff', '#00fdd1', '#00fa88', '#00fe2a', '#39e500', '#6cdb00', '#80fc08', '#adff30', '#dbff20', '#fff300', '#ffda00', '#ffc40a', '#ff8908', '#ff3e00', '#ff0e00', '#ff009f', '#dd11ff', '#a439fd', '#da6ef2', '#f0a0f2', '#bfbfbf']
 
         color.genMet = {};
         color.genMet.N = function(x) { return d3.interpolatePuBuGn(x); };
@@ -2130,6 +2368,8 @@
         addProps("struct", "k7", wildG, "ID", "sK7", color.struct.k7);
         addProps("struct", "k10", wildG, "ID", "sK10", color.struct.k10);
         addProps("struct", "k15", wildG, "ID", "sK15", color.struct.k15);
+        addProps("struct", "k20", wildG, "ID", "sK20", color.struct.k20);
+        addProps("struct", "k25", wildG, "ID", "sK25", color.struct.k25);
 
         addProps("dapc", "k2", wildG, "ID", "dK2", color.dapc.k2);
         addProps("dapc", "k3", wildG, "ID", "dK3", color.dapc.k3);
@@ -2150,6 +2390,8 @@
         addProps("hatchS", "k7", hatchG, "ID", "shK7", color.struct.k7);
         addProps("hatchS", "k10", hatchG, "ID", "shK10", color.struct.k10);
         addProps("hatchS", "k15", hatchG, "ID", "shK15", color.struct.k15);
+        addProps("hatchS", "k20", hatchG, "ID", "shK20", color.struct.k20);
+        addProps("hatchS", "k25", hatchG, "ID", "shK25", color.struct.k25);
 
 	addProps("hatchD", "k2", hatchG, "ID", "dhK2", color.dapc.k2);
 	addProps("hatchD", "k3", hatchG, "ID", "dhK3", color.dapc.k3);
@@ -2208,6 +2450,8 @@
         readTSV(sK7, topos.struct.k7); readTSV(genMet, topos.struct.k7);
         readTSV(sK10, topos.struct.k10); readTSV(genMet, topos.struct.k10);
         readTSV(sK15, topos.struct.k15); readTSV(genMet, topos.struct.k15);
+        readTSV(sK20, topos.struct.k20); readTSV(genMet, topos.struct.k20);
+        readTSV(sK25, topos.struct.k25); readTSV(genMet, topos.struct.k25);
 
         readTSV(dK2, topos.dapc.k2); readTSV(genMet, topos.dapc.k2);
         readTSV(dK3, topos.dapc.k3); readTSV(genMet, topos.dapc.k3);
@@ -2228,6 +2472,8 @@
         readTSV(shK7, topos.hatchS.k7); readTSV(genMetH, topos.hatchS.k7);
         readTSV(shK10, topos.hatchS.k10); readTSV(genMetH, topos.hatchS.k10);
         readTSV(shK15, topos.hatchS.k15); readTSV(genMetH, topos.hatchS.k15);
+        readTSV(shK20, topos.hatchS.k20); readTSV(genMetH, topos.hatchS.k20);
+        readTSV(shK25, topos.hatchS.k25); readTSV(genMetH, topos.hatchS.k25);
 
         readTSV(dhK2, topos.hatchD.k2); readTSV(genMetH, topos.hatchD.k2);
         readTSV(dhK3, topos.hatchD.k3); readTSV(genMetH, topos.hatchD.k3);

@@ -1272,14 +1272,20 @@ h1, h2, h3 {
 #plotsDiv {
   height: 643px;
   background: white;
-  border-radius: 0 0 4px 4px;
+  //border-radius: 0 0 4px 4px;
 }
 
 #plotsDiv img {
   width: 100%;
   position: absolute;
   top: 29px;
-  border-radius: 0 0 4px 4px;
+  //border-radius: 0 0 4px 4px;
+  cursor: zoom-in;
+}
+
+#plotManualSelectDiv {
+  padding: 5px;
+  text-align: center;
 }
 
 #graphsDiv {
@@ -1412,7 +1418,7 @@ table {
   font-size: 13px;
   text-align: left;
   color: #666666;
-  width: 108px;
+  //width: 108px;
   background: lightgray;
   background: linear-gradient(#f2f2f2, #cccccc);
   height: 25px;
