@@ -1240,6 +1240,7 @@ h1, h2, h3 {
 .attTRVis:hover {
   //background: rgba(65, 182, 196, 0.8);
   //background: rgba(51, 204, 51, 1);
+  background: gainsboro;
 }
 
 .attTD, .attTH {
